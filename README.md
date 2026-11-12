@@ -1,56 +1,91 @@
-# Welcome to your Expo app 👋
+# Scenely
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Learn a language by living it. Scenely drops you into short, real-life scenes, such as ordering a coffee, told only in the language you are learning. There are no translations: meaning comes from pictures, animation, repetition and your choices.
 
-## Get started
+The first language is **Dutch (nl-NL)**. The app is built so that more languages can be added as data and themes, without engine changes.
 
-1. Install dependencies
+## Status
 
-   ```bash
-   npm install
-   ```
+| Milestone | State |
+|---|---|
+| Setup (Expo, TypeScript, expo-router, dependencies) | ✅ Done |
+| Engine: types, pure reducer, progress and unlock rules, scene validation, tests | ✅ Done |
+| Café scenes as data (customer and barista versions) | ✅ Done |
+| Scene screen (speech bubbles, stickers, speech) | ⏳ Next |
+| Feedback (Lottie, shake, sounds) | Planned |
+| Progress screens (map, done, passport, options) | Planned |
+| Polish (accessibility, reduce motion) | Planned |
 
-2. Start the app
+Designs are in Figma (page "Final screens · Nederland (v5)").
 
-   ```bash
-   npx expo start
-   ```
+## Run it
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Requirements: Node 20+ and the Expo Go app on your phone.
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Scan the QR code with your phone's camera (iOS) or with Expo Go (Android).
 
-### Other setup steps
+**Dutch voice:** the app speaks with a Netherlands Dutch (`nl-NL`) voice. If no Dutch voice is installed, install one in your phone's settings:
+- iOS: Settings → Accessibility → Spoken Content → Voices → Dutch → choose a Netherlands voice (Enhanced or Premium sounds best).
+- Android: Settings → System → Languages → Text-to-speech output → Install voice data → Dutch (Netherlands).
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Checks
 
-## Learn more
+```bash
+npm test            # Jest unit tests
+npm run typecheck   # TypeScript strict mode
+npx expo lint       # ESLint
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Project layout
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+src/
+├── app/                 # expo-router screens (every file is a route)
+├── engine/              # pure logic: no UI, speech or storage
+│   ├── types.ts         # Scene, Turn, Choice
+│   ├── reducer.ts       # scene playback state machine
+│   ├── progress.ts      # unlock order, badges, tulip rating
+│   ├── validate.ts      # catches broken scene data
+│   └── __tests__/
+├── scenes/
+│   ├── index.ts         # unlock order per language
+│   └── nl/              # Dutch scenes, one file per scene
+└── themes/
+    ├── types.ts         # tokens every language theme provides
+    └── nl.ts            # Nederland theme
+```
 
-## Join the community
+## How a scene works
 
-Join our community of developers creating universal apps.
+A scene is a map of **turns**, starting from `start`:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `npc`: the other character says a line (spoken, shown in a speech bubble), then moves to `next`.
+- `player`: the learner picks a sticker. A correct choice moves to its `next`; a wrong one shows feedback and the learner tries again. More than one choice can be correct.
+- `end`: the final line. Reaching it completes the scene.
+
+The reducer (`src/engine/reducer.ts`) is a pure state machine with four actions: `START`, `CHOOSE`, `NEXT` and `RESTART`. Every choice is counted per turn and used for the tulip rating (3 = all first time).
+
+## Add a scene
+
+1. Create `src/scenes/nl/<scene-id>.ts` exporting a `Scene` (copy `koffiebar-klant.ts` as a starting point).
+2. Add it to `scenesNl` in `src/scenes/index.ts`. Its position in that list is its unlock position.
+3. Run `npm test`. The scene-data test runs `validateScene` on every scene and reports broken links, turns without a correct answer, and scenes whose end can't be reached.
+
+**Content rules:** 4–8 turns, one goal, short A1–A2 sentences, one register per scene (formal `u` or informal `je`), no straight quotes (use “ ” and ’). Split a scenario into one scene per role only when the roles have different goals (customer vs barista). Friends or neighbours get one scene.
+
+**Register in the café scenes:** both versions use formal `u`, because a café is a service setting.
+
+## Add a language (later)
+
+1. Add a theme in `src/themes/<lang>.ts` that implements `Theme`.
+2. Add scenes under `src/scenes/<lang>/` with `language` set to the right BCP 47 code.
+3. Speech picks a voice from each scene's `language`.
+
+## Credits and licences
+
+Only free assets with clear licences (CC0 or MIT). Each asset's source will be listed here when it is added.
