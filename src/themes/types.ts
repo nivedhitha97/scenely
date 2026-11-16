@@ -22,4 +22,13 @@ export type Theme = {
     warmSoft: string;
     locked: string;
   };
+  /** Font family names as registered with expo-font (see src/app/_layout.tsx). */
+  fonts: {
+    display: string;
+    displayBold: string;
+    body: string;
+    bodyMedium: string;
+    bodyBold: string;
+    hand: string;
+  };
 };

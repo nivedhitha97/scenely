@@ -1,6 +1,12 @@
 import type { Scene, Turn } from "./types";
 
-export type Reaction = { correct: boolean; reaction: string; choiceId: string };
+export type Reaction = {
+  correct: boolean;
+  reaction: string;
+  choiceId: string;
+  /** The player turn the choice was made on. */
+  turnId: string;
+};
 
 export type PlayState = {
   sceneId: string;
@@ -63,6 +69,7 @@ export function reducer(state: PlayState, action: Action): PlayState {
         correct: choice.correct,
         reaction: choice.reaction,
         choiceId: choice.id,
+        turnId: turn.id,
       };
 
       if (!choice.correct) {
