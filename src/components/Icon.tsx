@@ -142,6 +142,32 @@ const ICONS = {
       <Path d="M5 21a7 7 0 0 1 14 0" />
     </>
   ),
+  ear: (
+    <>
+      <Path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0" />
+      <Path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4" />
+    </>
+  ),
+  chat: <Path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
+  bag: (
+    <>
+      <Path d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1Z" />
+      <Path d="M9 10V6a3 3 0 0 1 6 0v4" />
+    </>
+  ),
+  receipt: (
+    <>
+      <Path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z" />
+      <Path d="M9 8h6M9 12h6M9 16h3" />
+    </>
+  ),
+  moon: <Path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />,
+  clock: (
+    <>
+      <Circle cx={12} cy={12} r={9} />
+      <Path d="M12 7v5l3 2" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof ICONS;

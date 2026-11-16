@@ -12,8 +12,10 @@ export type Place = {
   sceneIds: string[];
   /** Role names shown on the map for places whose scenes don't exist yet. */
   roles: string[];
-  /** Where the avatar stands, in map coordinates (the map is 900 × 1180). */
+  /** Where the place sits on the bike route, in map coordinates. */
   door: { x: number; y: number };
+  /** Top centre of the place's name label on the map. */
+  label?: { x: number; y: number };
 };
 
 /** soon: no scenes yet. locked: scenes exist but none is open. open: at least one scene to play. done: every scene completed. */

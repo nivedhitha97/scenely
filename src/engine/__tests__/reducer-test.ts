@@ -25,6 +25,7 @@ describe("reducer", () => {
     expect(s.status).toBe("feedback");
     expect(s.lastReaction).toEqual({ correct: true, reaction: "coffee", choiceId: "koffie", turnId: "t2" });
     expect(s.attempts).toEqual({ t2: 1 });
+    expect(s.answers).toEqual({ t2: "koffie" });
 
     const after = next(s);
     expect(after.status).toBe("playing");

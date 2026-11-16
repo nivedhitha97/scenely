@@ -13,6 +13,8 @@ export type PlayState = {
   currentTurnId: string;
   /** Number of choices made per player turn (correct and incorrect). */
   attempts: Record<string, number>;
+  /** The correct choice made on each player turn, by turn id. */
+  answers: Record<string, string>;
   /**
    * playing:  waiting for the NPC line to finish or for the learner to choose
    * feedback: a correct choice was made; the UI plays the reaction, then sends NEXT
@@ -46,7 +48,7 @@ function enter(scene: Scene, turnId: string): Pick<PlayState, "currentTurnId" | 
 }
 
 export function initialState(scene: Scene): PlayState {
-  return { sceneId: scene.id, attempts: {}, ...enter(scene, scene.start) };
+  return { sceneId: scene.id, attempts: {}, answers: {}, ...enter(scene, scene.start) };
 }
 
 /** Pure state transitions. No speech, animation or storage here. */
@@ -76,7 +78,8 @@ export function reducer(state: PlayState, action: Action): PlayState {
         return { ...state, attempts, lastReaction };
       }
       getTurn(scene, choice.next); // fail fast on broken data
-      return { ...state, attempts, lastReaction, currentTurnId: choice.next, status: "feedback" };
+      const answers = { ...state.answers, [turn.id]: choice.id };
+      return { ...state, attempts, answers, lastReaction, currentTurnId: choice.next, status: "feedback" };
     }
 
     case "NEXT": {

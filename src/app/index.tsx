@@ -1,4 +1,4 @@
-import { Redirect, router } from "expo-router";
+import { Redirect, router, useIsFocused } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View, type ScrollViewInstance } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
@@ -8,12 +8,12 @@ import Svg, { Path } from "react-native-svg";
 import { Figure } from "@/components/avatar/Figure";
 import { lookFor } from "@/components/avatar/looks";
 import { Icon } from "@/components/Icon";
-import { MAP_HEIGHT, MAP_WIDTH, NlTownMap } from "@/components/map/NlTownMap";
+import { AmsterdamMap, MAP_HEIGHT, MAP_WIDTH } from "@/components/map/AmsterdamMap";
+import { CyclingAvatar } from "@/components/map/CyclingAvatar";
 import { C, shadow } from "@/components/map/palette";
 import { PlaceLabel } from "@/components/map/PlaceLabel";
 import { PlaceSheet } from "@/components/map/PlaceSheet";
-import { routePath, standPoint } from "@/components/map/route";
-import { WalkingAvatar } from "@/components/map/WalkingAvatar";
+import { legBetween, legPath } from "@/components/map/route";
 import { currentPlace, discoveredCount, placeStatus, type Place } from "@/engine/places";
 import { sceneStatus } from "@/engine/progress";
 import { useGame } from "@/hooks/useGame";
@@ -24,7 +24,7 @@ import { useTheme } from "@/themes";
 const places = placesNl;
 const scenes = scenesNl;
 
-/** "Kaart": the illustrated map of the Netherlands. Every place is a scenario; the avatar shows where you are. */
+/** "Kaart": the illustrated Amsterdam map. Every place is a scenario; the learner cycles from one to the next. */
 export default function MapScreen() {
   const t = useTheme();
   const game = useGame();
@@ -34,7 +34,7 @@ export default function MapScreen() {
 
   const here = currentPlace(places, scenes, game.progress);
   const statuses = useMemo(
-    () => places.map((p) => ({ id: p.id, door: p.door, status: placeStatus(p, scenes, game.progress) })),
+    () => places.map((p) => ({ id: p.id, status: placeStatus(p, scenes, game.progress) })),
     [game.progress],
   );
   const statusOf = (p: Place) => statuses.find((x) => x.id === p.id)!.status;
@@ -44,12 +44,16 @@ export default function MapScreen() {
   const walk = useMemo(() => {
     const from = places.find((p) => p.id === pendingWalk?.from);
     const to = places.find((p) => p.id === pendingWalk?.to);
-    return from && to ? { from, to } : null;
+    const leg = from && to ? legBetween(from.id, to.id) : null;
+    return from && to && leg ? { from, to, leg } : null;
   }, [pendingWalk]);
   const [arrivedAt, setArrivedAt] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [laidOut, setLaidOut] = useState(false);
-  const walking = !!walk && arrivedAt !== walk.to.id;
+  // Ride only while the map is on screen: it stays mounted under the scene and "Goed gedaan!"
+  // screens, and the learner should see the ride when they come back.
+  const focused = useIsFocused();
+  const walking = focused && !!walk && arrivedAt !== walk.to.id;
 
   const vScroll = useRef<ScrollViewInstance>(null);
   const hScroll = useRef<ScrollViewInstance>(null);
@@ -73,11 +77,11 @@ export default function MapScreen() {
   useEffect(() => {
     // Point the camera once the map has its size: at the walk (the avatar arrives at once with
     // reduce motion on, see WalkingAvatar), or else at the place where the avatar stands.
-    if (!laidOut) return;
+    if (!laidOut || !focused) return;
     if (!walk) return;
     if (reduceMotion) centreOn(walk.to.door.x, walk.to.door.y, false);
     else centreOn((walk.from.door.x + walk.to.door.x) / 2, (walk.from.door.y + walk.to.door.y) / 2, true);
-  }, [laidOut, walk, reduceMotion, centreOn]);
+  }, [laidOut, focused, walk, reduceMotion, centreOn]);
 
   if (!game.ready) return <View style={[s.screen, { backgroundColor: C.cream }]} />;
   if (!game.avatar) return <Redirect href="/avatar" />;
@@ -113,17 +117,10 @@ export default function MapScreen() {
       >
         <ScrollView ref={hScroll} horizontal bounces={false} showsHorizontalScrollIndicator={false}>
           <View style={{ width: MAP_WIDTH, height: MAP_HEIGHT }}>
-            <NlTownMap places={statuses} />
+            <AmsterdamMap />
             {walking && walk && (
               <Svg style={StyleSheet.absoluteFill} width={MAP_WIDTH} height={MAP_HEIGHT} pointerEvents="none">
-                <Path
-                  d={routePath(standPoint(walk.from.door), standPoint(walk.to.door))}
-                  stroke={C.coral}
-                  strokeWidth={5}
-                  strokeDasharray="2 12"
-                  strokeLinecap="round"
-                  fill="none"
-                />
+                <Path d={legPath(walk.leg)} stroke="#E0603F" strokeWidth={6} strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={0.85} />
               </Svg>
             )}
             {places.map((p) => (
@@ -138,11 +135,11 @@ export default function MapScreen() {
                 onPress={() => !walking && setSelectedId(p.id)}
               />
             ))}
-            <WalkingAvatar
-              key={walking && walk ? `walk-${walk.from.id}-${walk.to.id}` : `stand-${avatarAt.id}`}
+            <CyclingAvatar
+              key={walking && walk ? `ride-${walk.from.id}-${walk.to.id}` : `stand-${avatarAt.id}`}
               look={look}
-              from={avatarAt.door}
-              to={walking && walk ? walk.to.door : undefined}
+              at={avatarAt.door}
+              leg={walking && walk ? walk.leg : null}
               instant={reduceMotion}
               onArrive={walk ? () => finishWalk(walk.to) : undefined}
             />
@@ -157,7 +154,7 @@ export default function MapScreen() {
           </View>
           <View style={s.hudText}>
             <Text style={[s.hudTitle, { fontFamily: t.fonts.display }]}>{walk.from.title} voltooid</Text>
-            <Text style={[s.hudSub, { fontFamily: t.fonts.bodyBold }]}>Op weg naar {walk.to.title.toLowerCase()}…</Text>
+            <Text style={[s.hudSub, { fontFamily: t.fonts.bodyBold }]}>Op de fiets naar {walk.to.title.toLowerCase()}…</Text>
           </View>
           <Pressable onPress={() => finishWalk(walk.to)} accessibilityRole="button" hitSlop={10}>
             <Text style={[s.skip, { fontFamily: t.fonts.bodyBold }]}>Overslaan</Text>

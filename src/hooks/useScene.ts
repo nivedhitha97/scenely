@@ -66,14 +66,31 @@ export function useScene(scene: Scene) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- speak only when the line changes
   }, [speakKey, voiceReady]);
 
-  // A wrong answer: the NPC repeats the question slowly.
+  // The sentence the learner just chose correctly (shown with "Goed zo!").
   const reaction = state.lastReaction;
-  useEffect(() => {
-    if (reaction && !reaction.correct) say(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per wrong answer
-  }, [reaction]);
+  const answer: string | undefined = useMemo(() => {
+    if (!reaction?.correct) return undefined;
+    const t = getTurn(scene, reaction.turnId);
+    return t.kind === "player" ? t.choices.find((c) => c.id === reaction.choiceId)?.label : undefined;
+  }, [scene, reaction]);
 
-  // A right answer stays on screen ("Goed zo!") until the learner taps Verder.
+  /** Speaks the learner's chosen answer, so they can say it along with the voice. */
+  const sayAnswer = useCallback(
+    (slow = false) => {
+      if (answer) sayText(answer, slow);
+    },
+    [answer, sayText],
+  );
+
+  // A wrong answer: the NPC repeats the question slowly.
+  // A right answer: the voice says the learner's sentence, to say along with. It stays on screen
+  // ("Goed zo!") until the learner taps Verder.
+  useEffect(() => {
+    if (!reaction) return;
+    if (reaction.correct) sayAnswer(false);
+    else say(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per answer
+  }, [reaction]);
 
   useEffect(() => stopSpeaking, []);
 
@@ -84,7 +101,9 @@ export function useScene(scene: Scene) {
     choiceTurn,
     voiceStatus: voice.status,
     tulips: { total: playerTurnCount(scene), done: completedPlayerTurns(state) },
+    answer,
     say,
+    sayAnswer,
     sayText,
     choose: (choiceId: string) => {
       // Answering while the NPC line is showing first moves on to the question it leads into.

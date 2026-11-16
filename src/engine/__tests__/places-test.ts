@@ -14,9 +14,10 @@ describe("places", () => {
     expect([...ids].sort()).toEqual(scenes.map((s) => s.id).sort());
   });
 
-  it("starts with the café open and places without scenes marked soon", () => {
+  it("starts with the café open, the supermarket locked and places without scenes marked soon", () => {
     expect(placeStatus(cafe, scenes, emptyProgress)).toBe("open");
-    expect(placeStatus(placesNl[1], scenes, emptyProgress)).toBe("soon");
+    expect(placeStatus(placesNl[1], scenes, emptyProgress)).toBe("locked");
+    expect(placeStatus(placesNl[2], scenes, emptyProgress)).toBe("soon");
     expect(currentPlace(placesNl, scenes, emptyProgress).id).toBe("koffiebar");
     expect(discoveredCount(placesNl, scenes, emptyProgress)).toBe(1);
   });
@@ -24,6 +25,12 @@ describe("places", () => {
   it("a place is locked while its first scene waits on an earlier place", () => {
     const later: Place = { ...placesNl[1], sceneIds: ["koffiebar-barista"] };
     expect(placeStatus(later, scenes, emptyProgress)).toBe("locked");
+  });
+
+  it("opens the supermarket once both café roles are done", () => {
+    const afterCafe = done(["koffiebar-klant", "koffiebar-barista"]);
+    expect(placeStatus(placesNl[1], scenes, afterCafe)).toBe("open");
+    expect(currentPlace(placesNl, scenes, afterCafe).id).toBe("supermarkt");
   });
 
   it("stays open after one role and is done after both", () => {

@@ -67,13 +67,23 @@ describe("ScenePlayer", () => {
 
     for (const answer of ["Een koffie, alstublieft.", "Zwart, alstublieft.", "Pinnen, alstublieft."]) {
       await press(answer);
-      expect(screen.getByText("Goed zo!")).toBeOnTheScreen();
+      expect(screen.getByText("Goed zo! Zeg het mee.")).toBeOnTheScreen();
+      // The voice says the learner's own sentence, to say along with.
+      await act(async () => {});
+      expect(mockedSpeech.speak).toHaveBeenLastCalledWith(answer, expect.objectContaining({ rate: 0.9 }));
+      await press("Je antwoord langzaam");
+      await act(async () => {});
+      expect(mockedSpeech.speak).toHaveBeenLastCalledWith(answer, expect.objectContaining({ rate: 0.75 }));
       await press("Verder");
     }
 
     expect(screen.getByText("Alstublieft! Fijne dag nog.")).toBeOnTheScreen();
     await press("Klaar");
-    expect(onFinish).toHaveBeenCalledWith({ t2: 2, t4: 1, t6: 1 });
+    expect(onFinish).toHaveBeenCalledWith({
+      attempts: { t2: 2, t4: 1, t6: 1 },
+      answers: { t2: "koffie", t4: "zwart", t6: "pinnen" },
+      spoken: [],
+    });
   });
 
   it("shows the install message and keeps the text when no Dutch voice exists", async () => {
