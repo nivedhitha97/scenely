@@ -17,6 +17,11 @@ jest.mock("expo-speech", () => ({
 type Listener = (e: unknown) => void;
 const mockListeners = new Map<string, Set<Listener>>();
 const mockPermission = { granted: true, canAskAgain: true };
+// Pretend the native speech-recognition module is installed, as in a development build.
+jest.mock("expo", () => ({
+  ...jest.requireActual("expo"),
+  requireOptionalNativeModule: (name: string) => (name === "ExpoSpeechRecognition" ? {} : null),
+}));
 jest.mock("expo-speech-recognition", () => ({
   ExpoSpeechRecognitionModule: {
     isRecognitionAvailable: () => true,

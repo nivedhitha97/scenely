@@ -1,4 +1,6 @@
+import { requireOptionalNativeModule } from "expo";
 import type { ExpoSpeechRecognitionModule as RecognitionModule } from "expo-speech-recognition";
+import { Platform } from "react-native";
 
 /**
  * Wrapper around expo-speech-recognition. The native module is missing in Expo Go, so it is
@@ -9,6 +11,12 @@ type Module = typeof RecognitionModule;
 let cached: Module | null | undefined;
 function recognizer(): Module | null {
   if (cached === undefined) {
+    // Check first: in Expo Go the package throws while loading, and React Native's dev overlay
+    // reports that error even though it is caught below. The web version needs no native module.
+    if (Platform.OS !== "web" && !requireOptionalNativeModule("ExpoSpeechRecognition")) {
+      cached = null;
+      return cached;
+    }
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       cached = (require("expo-speech-recognition") as { ExpoSpeechRecognitionModule: Module }).ExpoSpeechRecognitionModule;
