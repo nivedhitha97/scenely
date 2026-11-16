@@ -8,7 +8,12 @@
     "scheme": "scenely",
     "userInterfaceStyle": "light",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "Scenely uses speech recognition to check which words of the sentence it heard.",
+        "NSMicrophoneUsageDescription": "Scenely uses the microphone so you can say sentences out loud and hear how you did."
+      },
+      "bundleIdentifier": "com.nivedhithap.scenely"
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +22,10 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "output": "server",
