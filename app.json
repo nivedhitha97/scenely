@@ -32,6 +32,13 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Scenely uses the microphone so you can say sentences out loud and hear how you did.",
+          "speechRecognitionPermission": "Scenely uses speech recognition to check which words of the sentence it heard."
+        }
       ]
     ],
     "experiments": {

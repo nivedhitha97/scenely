@@ -23,7 +23,7 @@ describe("reducer", () => {
     const s = choose(next(start()), "koffie");
     expect(s.currentTurnId).toBe("t3");
     expect(s.status).toBe("feedback");
-    expect(s.lastReaction).toEqual({ correct: true, reaction: "coffee", choiceId: "koffie" });
+    expect(s.lastReaction).toEqual({ correct: true, reaction: "coffee", choiceId: "koffie", turnId: "t2" });
     expect(s.attempts).toEqual({ t2: 1 });
 
     const after = next(s);
@@ -37,7 +37,7 @@ describe("reducer", () => {
     expect(s1.currentTurnId).toBe("t2");
     expect(s1.status).toBe("playing");
     expect(s1.attempts).toEqual({ t2: 1 });
-    expect(s1.lastReaction).toEqual({ correct: false, reaction: "cross", choiceId: "bier" });
+    expect(s1.lastReaction).toEqual({ correct: false, reaction: "cross", choiceId: "bier", turnId: "t2" });
 
     const s2 = choose(s1, "brood");
     expect(s2.attempts).toEqual({ t2: 2 });
