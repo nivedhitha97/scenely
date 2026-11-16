@@ -1,0 +1,360 @@
+<svg role="img" aria-label="Getekende kaart van Amsterdam. Een fietsroute verbindt de koffiebar, de supermarkt, de markt, de kledingwinkel, de huisarts, het ziekenhuis, de school en het station. Jij fietst van de koffiebar naar de supermarkt." width="1200" height="800" viewBox="0 0 1200 800" style="display: block;">
+  <defs>
+    <g id="tree">
+      <rect x="-2.5" y="-12" width="5" height="14" rx="2" fill="#7A5432" stroke="#4A3426" stroke-width="1.2"/>
+      <circle cx="-9" cy="-17" r="10" fill="#7DAE48" stroke="#4E6B2E" stroke-width="1.4"/>
+      <circle cx="9" cy="-17" r="10" fill="#7DAE48" stroke="#4E6B2E" stroke-width="1.4"/>
+      <circle cx="0" cy="-26" r="12" fill="#8DBD55" stroke="#4E6B2E" stroke-width="1.4"/>
+      <path d="M-4 -30 q4 -4 8 0" fill="none" stroke="#B4D77E" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <g id="bush">
+      <circle cx="-7" cy="-6" r="8" fill="#6FA343" stroke="#4E6B2E" stroke-width="1.2"/>
+      <circle cx="6" cy="-7" r="9" fill="#7DAE48" stroke="#4E6B2E" stroke-width="1.2"/>
+      <circle cx="-1" cy="-12" r="3" fill="#E8738A"/><circle cx="7" cy="-10" r="2.5" fill="#F6D776"/>
+    </g>
+    <g id="lamp">
+      <path d="M0 0 V-30" stroke="#2F3A3A" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="-5" y="-40" width="10" height="11" rx="2" fill="#F6D776" stroke="#2F3A3A" stroke-width="1.6"/>
+      <path d="M-6 -40 h12 l-6 -5 z" fill="#2F3A3A"/>
+    </g>
+    <g id="tulip">
+      <path d="M0 0 V-16" stroke="#4E8A3A" stroke-width="2"/>
+      <path d="M0 -8 q-6 -2 -8 -8 q6 1 8 6" fill="#6FA343"/>
+      <path d="M-6 -16 q0 -10 6 -12 q6 2 6 12 q-6 4 -12 0 z" fill="currentColor" stroke="#4A3426" stroke-width="1"/>
+    </g>
+    <g id="house">
+      <rect x="0" y="-56" width="30" height="56" fill="currentColor" stroke="#4A3426" stroke-width="1.5"/>
+      <path d="M0 -56 h4 v-6 h4 v-6 h4 v-6 h6 v6 h4 v6 h4 v6 h4" fill="currentColor" stroke="#4A3426" stroke-width="1.5" stroke-linejoin="round"/>
+      <g fill="#FBF4E8" stroke="#4A3426" stroke-width="1"><rect x="5" y="-48" width="7" height="9"/><rect x="18" y="-48" width="7" height="9"/><rect x="5" y="-33" width="7" height="9"/><rect x="18" y="-33" width="7" height="9"/></g>
+      <rect x="11" y="-15" width="8" height="15" fill="#5A3E2B"/>
+    </g>
+    <g id="house2">
+      <rect x="0" y="-62" width="28" height="62" fill="currentColor" stroke="#4A3426" stroke-width="1.5"/>
+      <path d="M0 -62 q14 -22 28 0" fill="currentColor" stroke="#4A3426" stroke-width="1.5"/>
+      <circle cx="14" cy="-66" r="3" fill="#FBF4E8" stroke="#4A3426"/>
+      <g fill="#FBF4E8" stroke="#4A3426" stroke-width="1"><rect x="4" y="-52" width="7" height="10"/><rect x="17" y="-52" width="7" height="10"/><rect x="4" y="-36" width="7" height="10"/><rect x="17" y="-36" width="7" height="10"/></g>
+      <rect x="10" y="-15" width="8" height="15" fill="#5A3E2B"/>
+    </g>
+    <g id="cyclist">
+      <ellipse cx="0" cy="1" rx="30" ry="4" fill="#4A3426" opacity=".18"/>
+      <circle cx="-17" cy="-12" r="12" fill="none" stroke="#2E2E2E" stroke-width="2.6"/>
+      <circle cx="17" cy="-12" r="12" fill="none" stroke="#2E2E2E" stroke-width="2.6"/>
+      <path d="M-17 -12 L-4 -12 L4 -28 L17 -12 M-4 -12 L-9 -32 M4 -28 L13 -34" fill="none" stroke="#3E6E8E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-14 -33 h9" stroke="#2E2E2E" stroke-width="3" stroke-linecap="round"/>
+      <path d="M10 -36 h7" stroke="#2E2E2E" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="15" y="-33" width="15" height="10" rx="2" fill="#C69A5B" stroke="#4A3426" stroke-width="1.2"/>
+      <circle cx="19" cy="-35" r="3" fill="#E85D5D"/><circle cx="24" cy="-36" r="3" fill="#F6D776"/><circle cx="28" cy="-34" r="2.6" fill="#E8738A"/><path d="M21 -38 l2 -4 M26 -38 l1 -4" stroke="#4E8A3A" stroke-width="1.4"/>
+      <path d="M-10 -34 L-1 -18 L-4 -10" fill="none" stroke="#3F6A9E" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-9 -34 L-3 -58" stroke="#4A3426" stroke-width="13" stroke-linecap="round"/>
+      <path d="M-9 -34 L-3 -58" stroke="#FAF3E6" stroke-width="10.5" stroke-linecap="round"/>
+      <path d="M-3 -52 L12 -38" stroke="#FAF3E6" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="13" cy="-37" r="2.5" fill="#C99673"/>
+      <rect x="-20" y="-58" width="10" height="16" rx="3" fill="#9C6B3F" stroke="#4A3426" stroke-width="1.2" transform="rotate(14 -15 -50)"/>
+      <path d="M-10 -64 q-10 4 -12 16 q-2 8 -8 12 q6 -1 9 -7 q-1 6 -5 10 q8 -3 10 -12 q2 -8 6 -12 z" fill="#2B2220"/>
+      <circle cx="-1" cy="-67" r="8.5" fill="#C99673" stroke="#4A3426" stroke-width="1.2"/>
+      <path d="M-10 -68 q2 -11 12 -10 q7 1 7 7 q-5 -3 -10 -2 q-4 1 -9 5 z" fill="#2B2220"/>
+      <path d="M1 -64 q2 2 5 0" fill="none" stroke="#4A3426" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="3.5" cy="-68" r="1" fill="#4A3426"/>
+    </g>
+    <g id="bikeParked">
+      <circle cx="-17" cy="-12" r="12" fill="none" stroke="#2E2E2E" stroke-width="2.6"/>
+      <circle cx="17" cy="-12" r="12" fill="none" stroke="#2E2E2E" stroke-width="2.6"/>
+      <path d="M-17 -12 L-4 -12 L4 -28 L17 -12 M-4 -12 L-9 -32 M4 -28 L13 -34" fill="none" stroke="#3E6E8E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-14 -33 h9" stroke="#2E2E2E" stroke-width="3" stroke-linecap="round"/>
+      <rect x="15" y="-33" width="15" height="10" rx="2" fill="#C69A5B" stroke="#4A3426" stroke-width="1.2"/>
+      <circle cx="19" cy="-35" r="3" fill="#E85D5D"/><circle cx="24" cy="-36" r="3" fill="#F6D776"/><circle cx="28" cy="-34" r="2.6" fill="#E8738A"/>
+      <path d="M-17 -12 l-4 12" stroke="#2E2E2E" stroke-width="2"/>
+    </g>
+    <g id="standing">
+      <path d="M-4 0 V-24 M4 0 V-24" stroke="#3F6A9E" stroke-width="5.5" stroke-linecap="round"/>
+      <rect x="-9" y="-50" width="18" height="28" rx="7" fill="#FAF3E6" stroke="#4A3426" stroke-width="1.4"/>
+      <rect x="-15" y="-48" width="9" height="16" rx="3" fill="#9C6B3F" stroke="#4A3426" stroke-width="1.2"/>
+      <path d="M8 -44 l10 -8" stroke="#FAF3E6" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M-7 -58 q-6 10 -6 22 q4 -4 5 -10 q1 6 -1 12 q7 -6 6 -18 z" fill="#2B2220"/>
+      <circle cx="0" cy="-59" r="8.5" fill="#C99673" stroke="#4A3426" stroke-width="1.2"/>
+      <path d="M-9 -60 q1 -11 11 -10 q7 1 7 8 q-5 -4 -10 -3 q-4 1 -8 5 z" fill="#2B2220"/>
+      <path d="M-2 -55 q2 2 5 0" fill="none" stroke="#4A3426" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="800" fill="#F3E4C4"/>
+  <rect x="0" y="0" width="1200" height="110" fill="#CFE6F0"/>
+  <g fill="#FFFFFF" opacity=".85"><ellipse cx="380" cy="34" rx="34" ry="11"/><ellipse cx="404" cy="28" rx="22" ry="10"/><ellipse cx="900" cy="30" rx="40" ry="11"/><ellipse cx="930" cy="24" rx="22" ry="10"/></g>
+
+  <path d="M0 108 C 200 98, 400 120, 600 110 S 1000 100, 1200 112 V 800 H 0 Z" fill="#F3E4C4"/>
+  <g fill="#C9DE93" stroke="#9DBB67" stroke-width="1.5">
+    <path d="M30 180 C 90 150, 180 160, 220 190 C 250 215, 160 240, 90 232 C 40 228, 0 210, 30 180 Z"/>
+    <path d="M300 520 C 360 500, 420 540, 400 590 C 380 630, 300 620, 280 580 C 270 550, 280 530, 300 520 Z"/>
+    <path d="M940 520 C 1000 500, 1040 530, 1020 580 C 990 620, 930 600, 920 560 Z"/>
+    <path d="M0 740 C 200 720, 400 760, 600 745 S 1000 730, 1200 750 V 800 H 0 Z"/>
+  </g>
+  <ellipse cx="615" cy="545" rx="140" ry="82" fill="#B5D67F" stroke="#86AE55" stroke-width="2"/>
+
+  <g fill="none" stroke-linecap="round">
+    <path d="M-20 430 C 180 405, 330 480, 480 455 S 760 405, 900 432 S 1100 478, 1220 440" stroke="#4A8DB8" stroke-width="54"/>
+    <path d="M-20 430 C 180 405, 330 480, 480 455 S 760 405, 900 432 S 1100 478, 1220 440" stroke="#6CB2DC" stroke-width="44"/>
+    <path d="M745 160 C 715 240, 780 320, 725 440" stroke="#4A8DB8" stroke-width="36"/>
+    <path d="M745 160 C 715 240, 780 320, 725 440" stroke="#6CB2DC" stroke-width="28"/>
+    <path d="M885 440 C 860 560, 930 680, 870 830" stroke="#4A8DB8" stroke-width="40"/>
+    <path d="M885 440 C 860 560, 930 680, 870 830" stroke="#6CB2DC" stroke-width="32"/>
+  </g>
+  <g fill="none" stroke="#A9D4EC" stroke-width="2" stroke-linecap="round">
+    <path d="M60 428 q8 -4 16 0 q8 4 16 0"/><path d="M250 452 q8 -4 16 0 q8 4 16 0"/><path d="M560 440 q8 -4 16 0 q8 4 16 0"/><path d="M1000 452 q8 -4 16 0 q8 4 16 0"/><path d="M880 560 q6 -3 12 0"/><path d="M740 260 q6 -3 12 0"/>
+  </g>
+  <ellipse cx="615" cy="552" rx="56" ry="24" fill="#6CB2DC" stroke="#4A8DB8" stroke-width="2"/>
+  <g fill="#fff" stroke="#4A3426" stroke-width="1.2">
+    <path d="M592 552 q-8 -2 -6 -12 q4 -2 5 4 q4 -2 10 2 q2 6 -9 6 z"/>
+    <path d="M630 556 q-8 -2 -6 -12 q4 -2 5 4 q4 -2 10 2 q2 6 -9 6 z"/>
+  </g>
+  <rect x="660" y="590" width="26" height="6" rx="2" fill="#9C6B3F" stroke="#4A3426"/>
+
+  <g fill="none" stroke="#EADBB9" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+    <path id="route" d="M250 330 C 330 350, 390 350, 470 335 C 560 322, 640 300, 730 308 S 820 300, 860 306 C 940 318, 1000 340, 1080 326 C 1120 400, 1100 470, 1082 520 S 1062 570, 1062 590 C 980 620, 900 650, 862 660 S 700 700, 620 708 C 480 712, 330 702, 230 680 C 160 600, 150 480, 228 420 S 380 260, 470 220 S 560 190, 600 186"/>
+  </g>
+  <path d="M250 330 C 330 350, 390 350, 470 335 C 560 322, 640 300, 730 308 S 820 300, 860 306 C 940 318, 1000 340, 1080 326 C 1120 400, 1100 470, 1082 520 S 1062 570, 1062 590 C 980 620, 900 650, 862 660 S 700 700, 620 708 C 480 712, 330 702, 230 680 C 160 600, 150 480, 228 420 S 380 260, 470 220 S 560 190, 600 186" fill="none" stroke="#3B2E28" stroke-width="2.6" stroke-dasharray="9 7" stroke-linecap="round"/>
+  <path id="leg" d="M250 330 C 330 350, 390 350, 470 335" fill="none" stroke="#E0603F" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+
+  <g stroke="#4A3426" stroke-width="1.6">
+    <path d="M708 296 q22 -18 44 0 v16 h-44 z" fill="#C8A57C"/>
+    <path d="M1062 446 q22 -18 44 0 v20 h-44 z" fill="#C8A57C"/>
+    <path d="M846 650 q22 -18 44 0 v18 h-44 z" fill="#C8A57C"/>
+    <path d="M204 414 q24 -18 48 0 v20 h-48 z" fill="#C8A57C"/>
+    <path d="M540 440 q24 -16 48 0 v16 h-48 z" fill="#C8A57C"/>
+  </g>
+  <g fill="none" stroke="#4A3426" stroke-width="1.2"><path d="M716 302 q14 -10 28 0"/><path d="M1070 454 q14 -10 28 0"/><path d="M854 656 q14 -10 28 0"/><path d="M212 420 q16 -10 32 0"/></g>
+
+  <g>
+    <path d="M60 420 h66 l-8 14 h-50 z" fill="#5E6C8C" stroke="#4A3426" stroke-width="1.5"/>
+    <rect x="72" y="408" width="40" height="13" rx="3" fill="#F4EBD3" stroke="#4A3426" stroke-width="1.2"/>
+    <g fill="#8FB5D0"><rect x="76" y="411" width="7" height="6"/><rect x="87" y="411" width="7" height="6"/><rect x="98" y="411" width="7" height="6"/></g>
+    <path d="M1000 452 h50 l-6 11 h-38 z" fill="#B5704F" stroke="#4A3426" stroke-width="1.5"/>
+    <path d="M880 760 h30 l-4 8 h-22 z" fill="#3D8279" stroke="#4A3426" stroke-width="1.2"/>
+  </g>
+
+  <g transform="translate(600,186) scale(0.82)">
+    <rect x="-150" y="-104" width="300" height="104" fill="#B5523B" stroke="#4A3426" stroke-width="2"/>
+    <rect x="-150" y="-112" width="300" height="10" fill="#8F3F2E" stroke="#4A3426" stroke-width="1.5"/>
+    <g fill="#F2D9A8" stroke="#4A3426" stroke-width="1"><rect x="-138" y="-90" width="12" height="18" rx="6"/><rect x="-118" y="-90" width="12" height="18" rx="6"/><rect x="-98" y="-90" width="12" height="18" rx="6"/><rect x="-78" y="-90" width="12" height="18" rx="6"/><rect x="66" y="-90" width="12" height="18" rx="6"/><rect x="86" y="-90" width="12" height="18" rx="6"/><rect x="106" y="-90" width="12" height="18" rx="6"/><rect x="126" y="-90" width="12" height="18" rx="6"/>
+      <rect x="-138" y="-56" width="12" height="18" rx="6"/><rect x="-118" y="-56" width="12" height="18" rx="6"/><rect x="-98" y="-56" width="12" height="18" rx="6"/><rect x="-78" y="-56" width="12" height="18" rx="6"/><rect x="66" y="-56" width="12" height="18" rx="6"/><rect x="86" y="-56" width="12" height="18" rx="6"/><rect x="106" y="-56" width="12" height="18" rx="6"/><rect x="126" y="-56" width="12" height="18" rx="6"/></g>
+    <path d="M-52 0 V-80 A52 52 0 0 1 52 -80 V0 Z" fill="#8FB5D0" stroke="#4A3426" stroke-width="2"/>
+    <path d="M-52 -80 A52 52 0 0 1 52 -80" fill="none" stroke="#5E7E9A" stroke-width="5"/>
+    <g stroke="#5E7E9A" stroke-width="1.4"><path d="M-26 0 V-118"/><path d="M0 0 V-130"/><path d="M26 0 V-118"/><path d="M-52 -40 H52"/></g>
+    <rect x="-20" y="-30" width="40" height="30" fill="#5A3E2B"/>
+    <rect x="-128" y="-170" width="34" height="170" fill="#A9483A" stroke="#4A3426" stroke-width="2"/>
+    <path d="M-132 -170 L-111 -206 L-90 -170 Z" fill="#5E4636" stroke="#4A3426" stroke-width="2"/>
+    <circle cx="-111" cy="-146" r="9" fill="#F4EBD3" stroke="#4A3426" stroke-width="1.5"/><path d="M-111 -146 v-5 M-111 -146 h4" stroke="#4A3426" stroke-width="1.4"/>
+    <rect x="94" y="-160" width="34" height="160" fill="#A9483A" stroke="#4A3426" stroke-width="2"/>
+    <path d="M90 -160 L111 -194 L132 -160 Z" fill="#5E4636" stroke="#4A3426" stroke-width="2"/>
+    <circle cx="111" cy="-136" r="9" fill="#F4EBD3" stroke="#4A3426" stroke-width="1.5"/><path d="M111 -136 v-5 M111 -136 h4" stroke="#4A3426" stroke-width="1.4"/>
+  </g>
+  <g>
+    <rect x="752" y="160" width="448" height="8" fill="#7E6A5A"/>
+    <path d="M770 130 h300 q34 0 40 28 h-340 z" fill="#F4EBD3" stroke="#4A3426" stroke-width="2"/>
+    <rect x="770" y="146" width="330" height="6" fill="#3D8279"/>
+    <g fill="#8FB5D0" stroke="#4A3426" stroke-width="1"><rect x="784" y="134" width="22" height="9" rx="2"/><rect x="816" y="134" width="22" height="9" rx="2"/><rect x="848" y="134" width="22" height="9" rx="2"/><rect x="900" y="134" width="22" height="9" rx="2"/><rect x="932" y="134" width="22" height="9" rx="2"/><rect x="964" y="134" width="22" height="9" rx="2"/><rect x="1016" y="134" width="22" height="9" rx="2"/><rect x="1048" y="134" width="22" height="9" rx="2"/></g>
+    <path d="M884 130 v28 M1000 130 v28" stroke="#4A3426" stroke-width="1.5"/>
+  </g>
+
+  <g>
+    <use href="#house" x="430" y="176" style="color:#C98F6E"/>
+    <use href="#house2" x="10" y="200" style="color:#D98C7A"/>
+    <use href="#house" x="40" y="200" style="color:#E8C35B"/>
+    <use href="#house2" x="72" y="200" style="color:#A65E46"/>
+    <use href="#house" x="102" y="200" style="color:#8DAE95"/>
+    <use href="#house2" x="1112" y="128" style="color:#E8C35B"/>
+    <use href="#house" x="1142" y="128" style="color:#A65E46"/>
+    <use href="#house2" x="1170" y="128" style="color:#D3A27A"/>
+    <use href="#house" x="930" y="570" style="color:#E8C35B"/>
+    <use href="#house2" x="958" y="570" style="color:#A65E46"/>
+    <use href="#house" x="986" y="570" style="color:#D98C7A"/>
+    <use href="#house2" x="1014" y="570" style="color:#5E7E9A"/>
+    <use href="#house" x="1150" y="520" style="color:#C98F6E"/>
+    <use href="#house2" x="700" y="770" style="color:#D3A27A"/>
+    <use href="#house" x="728" y="770" style="color:#A65E46"/>
+  </g>
+
+  <g transform="translate(48,300)">
+    <path d="M-10 0 L-6 -48 H6 L10 0 Z" fill="#9C7A5E" stroke="#4A3426" stroke-width="1.6"/>
+    <path d="M-8 -48 h16 l-8 -10 z" fill="#5E4636" stroke="#4A3426" stroke-width="1.4"/>
+    <g transform="translate(0,-48) rotate(20)" stroke="#4A3426" stroke-width="1.4">
+      <rect x="-3" y="-42" width="6" height="40" fill="#F4EBD3"/><rect x="-3" y="2" width="6" height="40" fill="#F4EBD3"/><rect x="-42" y="-3" width="40" height="6" fill="#F4EBD3"/><rect x="2" y="-3" width="40" height="6" fill="#F4EBD3"/>
+      <circle cx="0" cy="0" r="4" fill="#5E4636"/>
+    </g>
+  </g>
+
+  <g transform="translate(210,300)">
+    <rect x="-64" y="-84" width="128" height="84" fill="#A75A3F" stroke="#4A3426" stroke-width="2"/>
+    <path d="M-64 -84 h128 v-8 h-128 z" fill="#7E4A36" stroke="#4A3426" stroke-width="1.5"/>
+    <g fill="#F7D58A" stroke="#4A3426" stroke-width="1"><rect x="-54" y="-74" width="16" height="16"/><rect x="-26" y="-74" width="16" height="16"/><rect x="10" y="-74" width="16" height="16"/><rect x="38" y="-74" width="16" height="16"/></g>
+    <g stroke="#4A3426" stroke-width="1.2">
+      <path d="M-70 -48 h140 l-6 14 h-128 z" fill="#fff"/>
+      <g fill="#E0603F"><path d="M-62 -48 h14 l-1 14 h-14 z"/><path d="M-34 -48 h14 l-1 14 h-14 z"/><path d="M-6 -48 h14 l-1 14 h-14 z"/><path d="M22 -48 h14 l-1 14 h-14 z"/><path d="M50 -48 h14 l-1 14 h-14 z"/></g>
+    </g>
+    <rect x="-50" y="-30" width="40" height="30" fill="#F7D58A" stroke="#4A3426" stroke-width="1.2"/>
+    <rect x="8" y="-32" width="16" height="32" fill="#5A3E2B"/>
+    <rect x="32" y="-30" width="26" height="22" fill="#F7D58A" stroke="#4A3426" stroke-width="1.2"/>
+    <g stroke="#4A3426" stroke-width="1.2"><circle cx="-70" cy="16" r="7" fill="#E9D4B0"/><path d="M-70 23 v10" /><circle cx="-38" cy="18" r="7" fill="#E9D4B0"/><path d="M-38 25 v10"/></g>
+    <path d="M70 -2 l8 -22 h12 l8 22" fill="#3B3B3B" stroke="#4A3426" stroke-width="1.2"/>
+  </g>
+  <g transform="translate(210,182)">
+    <rect x="-62" y="0" width="124" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <circle cx="-42" cy="17" r="11" fill="#3D8279"/><path d="M-47 17 l3.5 3.5 l6.5 -7" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="10" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Koffiebar</text>
+  </g>
+
+  <g transform="translate(470,300)">
+    <rect x="-66" y="-76" width="132" height="76" fill="#3F7A62" stroke="#4A3426" stroke-width="2"/>
+    <rect x="-40" y="-92" width="80" height="18" rx="4" fill="#F4EBD3" stroke="#4A3426" stroke-width="1.4"/>
+    <path d="M-12 -86 h24 l-3 9 h-18 z M-8 -86 l4 -4 M8 -86 l-4 -4" fill="none" stroke="#3F7A62" stroke-width="2" stroke-linejoin="round"/>
+    <g stroke="#4A3426" stroke-width="1.2">
+      <path d="M-72 -56 h144 l-6 14 h-132 z" fill="#fff"/>
+      <g fill="#7DAE48"><path d="M-64 -56 h14 l-1 14 h-14 z"/><path d="M-36 -56 h14 l-1 14 h-14 z"/><path d="M-8 -56 h14 l-1 14 h-14 z"/><path d="M20 -56 h14 l-1 14 h-14 z"/><path d="M48 -56 h14 l-1 14 h-14 z"/></g>
+    </g>
+    <rect x="-56" y="-38" width="74" height="38" fill="#DCEBEA" stroke="#4A3426" stroke-width="1.4"/>
+    <g fill="#E8C35B"><circle cx="-44" cy="-12" r="4"/><circle cx="-34" cy="-12" r="4"/><circle cx="-24" cy="-12" r="4"/></g>
+    <g fill="#E0603F"><circle cx="-40" cy="-22" r="3.5"/><circle cx="-30" cy="-22" r="3.5"/></g>
+    <rect x="26" y="-38" width="30" height="38" fill="#2E4A41" stroke="#4A3426" stroke-width="1.4"/>
+    <path d="M70 -2 h20 l-3 -12 h-17 z M74 0 a2 2 0 1 0 0.1 0 M86 0 a2 2 0 1 0 0.1 0" fill="none" stroke="#4A3426" stroke-width="1.8"/>
+  </g>
+  <g transform="translate(450,186)">
+    <rect x="-80" y="0" width="160" height="36" rx="18" fill="#FFFDF7" stroke="#2E2A26" stroke-width="2.4"/>
+    <rect x="-74" y="6" width="54" height="24" rx="12" fill="#F29B62"/>
+    <text x="-47" y="24" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="11.5" fill="#fff">NIEUW</text>
+    <text x="28" y="25" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Supermarkt</text>
+  </g>
+
+  <g transform="translate(860,290)">
+    <g stroke="#4A3426" stroke-width="1.4">
+      <rect x="-110" y="-44" width="64" height="44" fill="#E9D4B0"/>
+      <path d="M-116 -60 h76 l-6 16 h-64 z" fill="#fff"/><g fill="#E0603F"><path d="M-110 -60 h12 v16 h-12 z"/><path d="M-86 -60 h12 v16 h-12 z"/><path d="M-62 -60 h12 v16 h-12 z"/></g>
+      <rect x="-36" y="-44" width="64" height="44" fill="#E9D4B0"/>
+      <path d="M-42 -60 h76 l-6 16 h-64 z" fill="#fff"/><g fill="#4A8DB8"><path d="M-36 -60 h12 v16 h-12 z"/><path d="M-12 -60 h12 v16 h-12 z"/><path d="M12 -60 h12 v16 h-12 z"/></g>
+      <rect x="38" y="-44" width="64" height="44" fill="#E9D4B0"/>
+      <path d="M32 -60 h76 l-6 16 h-64 z" fill="#fff"/><g fill="#7DAE48"><path d="M38 -60 h12 v16 h-12 z"/><path d="M62 -60 h12 v16 h-12 z"/><path d="M86 -60 h12 v16 h-12 z"/></g>
+    </g>
+    <g><circle cx="-98" cy="-14" r="5" fill="#E8738A"/><circle cx="-86" cy="-14" r="5" fill="#F6D776"/><circle cx="-74" cy="-14" r="5" fill="#E0603F"/><circle cx="-62" cy="-14" r="5" fill="#B57EDC"/>
+      <circle cx="-22" cy="-14" r="7" fill="#F2C24F" stroke="#4A3426"/><circle cx="-6" cy="-14" r="7" fill="#F2C24F" stroke="#4A3426"/><circle cx="10" cy="-14" r="7" fill="#F2C24F" stroke="#4A3426"/>
+      <circle cx="52" cy="-14" r="5" fill="#E0603F"/><circle cx="64" cy="-14" r="5" fill="#7DAE48"/><circle cx="76" cy="-14" r="5" fill="#F29B62"/><circle cx="88" cy="-14" r="5" fill="#E0603F"/></g>
+  </g>
+  <g transform="translate(860,184)">
+    <rect x="-70" y="0" width="140" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-52 22 v-7 a5 5 0 0 1 10 0 v7 M-55 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="10" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Op de markt</text>
+  </g>
+
+  <g transform="translate(1088,320)">
+    <rect x="-36" y="-90" width="72" height="90" fill="#D98C7A" stroke="#4A3426" stroke-width="2"/>
+    <path d="M-36 -90 q36 -34 72 0" fill="#C4776A" stroke="#4A3426" stroke-width="2"/>
+    <g fill="#FBF4E8" stroke="#4A3426" stroke-width="1"><rect x="-26" y="-76" width="14" height="16"/><rect x="12" y="-76" width="14" height="16"/></g>
+    <rect x="-28" y="-46" width="56" height="34" fill="#FBF4E8" stroke="#4A3426" stroke-width="1.4"/>
+    <path d="M-16 -36 l6 -5 l6 5 v12 h-12 z M6 -36 l6 -5 l6 5 v12 h-12 z" fill="#E8738A" stroke="#4A3426" stroke-width="1"/>
+    <rect x="-8" y="-12" width="16" height="12" fill="#5A3E2B"/>
+  </g>
+  <g transform="translate(1088,330)">
+    <rect x="-78" y="0" width="156" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-60 22 v-7 a5 5 0 0 1 10 0 v7 M-63 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="10" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Kledingwinkel</text>
+  </g>
+
+  <g transform="translate(1100,620)">
+    <rect x="-56" y="-74" width="112" height="74" fill="#F4F1EA" stroke="#4A3426" stroke-width="2"/>
+    <rect x="-56" y="-82" width="112" height="10" fill="#C9C2B8" stroke="#4A3426" stroke-width="1.4"/>
+    <g fill="#8FB5D0" stroke="#4A3426" stroke-width="1"><rect x="-46" y="-62" width="18" height="16"/><rect x="28" y="-62" width="18" height="16"/><rect x="-46" y="-36" width="18" height="16"/><rect x="28" y="-36" width="18" height="16"/></g>
+    <rect x="-14" y="-66" width="28" height="28" rx="4" fill="#fff" stroke="#4A3426" stroke-width="1.2"/>
+    <path d="M-4 -62 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8 v-8 h8 z" fill="#E0603F"/>
+    <rect x="-12" y="-28" width="24" height="28" fill="#8FB5D0" stroke="#4A3426" stroke-width="1.4"/>
+  </g>
+  <g transform="translate(1100,490)">
+    <rect x="-60" y="0" width="120" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-44 22 v-7 a5 5 0 0 1 10 0 v7 M-47 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="12" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Huisarts</text>
+  </g>
+
+  <g transform="translate(600,770)">
+    <rect x="-90" y="-100" width="180" height="100" fill="#EEF2F4" stroke="#4A3426" stroke-width="2"/>
+    <rect x="-90" y="-108" width="180" height="10" fill="#C9D3D8" stroke="#4A3426" stroke-width="1.4"/>
+    <g fill="#8FB5D0" stroke="#4A3426" stroke-width="1"><rect x="-80" y="-90" width="18" height="14"/><rect x="-56" y="-90" width="18" height="14"/><rect x="38" y="-90" width="18" height="14"/><rect x="62" y="-90" width="18" height="14"/><rect x="-80" y="-64" width="18" height="14"/><rect x="-56" y="-64" width="18" height="14"/><rect x="38" y="-64" width="18" height="14"/><rect x="62" y="-64" width="18" height="14"/><rect x="-80" y="-38" width="18" height="14"/><rect x="62" y="-38" width="18" height="14"/></g>
+    <rect x="-18" y="-94" width="36" height="36" rx="5" fill="#fff" stroke="#4A3426" stroke-width="1.2"/>
+    <path d="M-5 -88 h10 v10 h10 v10 h-10 v10 h-10 v-10 h-10 v-10 h10 z" fill="#E0603F"/>
+    <rect x="-24" y="-40" width="48" height="40" fill="#8FB5D0" stroke="#4A3426" stroke-width="1.4"/>
+  </g>
+  <g transform="translate(470,630)">
+    <rect x="-68" y="0" width="136" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-50 22 v-7 a5 5 0 0 1 10 0 v7 M-53 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="12" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Ziekenhuis</text>
+  </g>
+
+  <g transform="translate(150,740)">
+    <rect x="-80" y="-86" width="160" height="86" fill="#E9C46A" stroke="#4A3426" stroke-width="2"/>
+    <path d="M-88 -86 L0 -122 L88 -86 Z" fill="#C4553A" stroke="#4A3426" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="0" cy="-98" r="10" fill="#F4EBD3" stroke="#4A3426" stroke-width="1.5"/><path d="M0 -98 v-6 M0 -98 h5" stroke="#4A3426" stroke-width="1.4"/>
+    <g fill="#8FB5D0" stroke="#4A3426" stroke-width="1"><rect x="-68" y="-72" width="18" height="18"/><rect x="-42" y="-72" width="18" height="18"/><rect x="24" y="-72" width="18" height="18"/><rect x="50" y="-72" width="18" height="18"/><rect x="-68" y="-42" width="18" height="18"/><rect x="50" y="-42" width="18" height="18"/></g>
+    <rect x="-14" y="-38" width="28" height="38" fill="#7A5432" stroke="#4A3426" stroke-width="1.4"/>
+  </g>
+  <g transform="translate(120,560)">
+    <rect x="-52" y="0" width="104" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-36 22 v-7 a5 5 0 0 1 10 0 v7 M-39 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="10" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">School</text>
+  </g>
+  <g stroke="#4A3426" stroke-width="2" fill="none"><path d="M250 724 v-36 h34 v36"/><path d="M258 688 v18 M276 688 v18"/><rect x="254" y="706" width="8" height="3" fill="#E0603F"/><rect x="272" y="706" width="8" height="3" fill="#E0603F"/></g>
+
+  <g transform="translate(610,194)">
+    <rect x="-70" y="0" width="140" height="34" rx="17" fill="#FFFDF7" stroke="#4A3426" stroke-width="1.8"/>
+    <path d="M-52 22 v-7 a5 5 0 0 1 10 0 v7 M-55 15 h16 v11 h-16 z" fill="none" stroke="#6F7775" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="10" y="24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="21" fill="#2E2A26">Station</text>
+  </g>
+
+  <g>
+    <use href="#tree" x="40" y="320"/><use href="#tree" x="88" y="340"/><use href="#tree" x="330" y="270"/><use href="#tree" x="360" y="300"/>
+    <use href="#tree" x="560" y="270"/><use href="#tree" x="640" y="250"/><use href="#tree" x="600" y="300"/><use href="#tree" x="990" y="270"/>
+    <use href="#tree" x="1170" y="300"/><use href="#tree" x="1160" y="380"/><use href="#tree" x="820" y="380"/><use href="#tree" x="950" y="380"/>
+    <use href="#tree" x="500" y="520"/><use href="#tree" x="520" y="610"/><use href="#tree" x="720" y="520"/><use href="#tree" x="730" y="610"/>
+    <use href="#tree" x="320" y="560"/><use href="#tree" x="370" y="600"/><use href="#tree" x="420" y="520"/><use href="#tree" x="980" y="600"/>
+    <use href="#tree" x="1170" y="700"/><use href="#tree" x="790" y="730"/><use href="#tree" x="30" y="560"/><use href="#tree" x="270" y="780"/>
+    <use href="#tree" x="1000" y="790"/><use href="#tree" x="380" y="760"/><use href="#tree" x="300" y="380"/><use href="#tree" x="1130" y="240"/>
+    <use href="#bush" x="140" y="355"/><use href="#bush" x="560" y="360"/><use href="#bush" x="960" y="330"/><use href="#bush" x="680" y="640"/><use href="#bush" x="1010" y="700"/><use href="#bush" x="230" y="610"/>
+  </g>
+  <g>
+    <use href="#lamp" x="190" y="398"/><use href="#lamp" x="280" y="398"/><use href="#lamp" x="520" y="430"/><use href="#lamp" x="700" y="380"/>
+    <use href="#lamp" x="1040" y="424"/><use href="#lamp" x="1130" y="424"/><use href="#lamp" x="830" y="640"/><use href="#lamp" x="920" y="690"/>
+  </g>
+  <g>
+    <use href="#tulip" x="20" y="796" style="color:#E0603F"/><use href="#tulip" x="38" y="790" style="color:#F6D776"/><use href="#tulip" x="56" y="796" style="color:#E8738A"/>
+    <use href="#tulip" x="300" y="796" style="color:#B57EDC"/><use href="#tulip" x="318" y="790" style="color:#E0603F"/><use href="#tulip" x="336" y="796" style="color:#F6D776"/>
+    <use href="#tulip" x="430" y="796" style="color:#E8738A"/><use href="#tulip" x="448" y="790" style="color:#F6D776"/>
+    <use href="#tulip" x="820" y="796" style="color:#F6D776"/><use href="#tulip" x="838" y="790" style="color:#E0603F"/><use href="#tulip" x="856" y="796" style="color:#B57EDC"/>
+    <use href="#tulip" x="960" y="796" style="color:#E0603F"/><use href="#tulip" x="978" y="790" style="color:#E8738A"/><use href="#tulip" x="1040" y="796" style="color:#F6D776"/>
+  </g>
+
+  <g transform="translate(24,18)">
+    <path d="M0 6 Q 150 -6 300 6 L 290 46 L 300 88 Q 150 76 0 88 L 10 46 Z" fill="#FFF6E4" stroke="#4A3426" stroke-width="2.2" stroke-linejoin="round"/>
+    <text x="28" y="48" font-family="Patrick Hand, sans-serif" font-size="40" fill="#2E2A26">Amsterdam</text>
+    <path d="M232 26 c4 -8 16 -6 14 4 c-1 6 -10 12 -14 16 c-4 -4 -13 -10 -14 -16 c-2 -10 10 -12 14 -4 z" fill="#E0603F"/>
+    <text x="30" y="76" font-family="Patrick Hand, sans-serif" font-size="20" fill="#4A3426">Kleine stad. Grote avonturen!</text>
+  </g>
+  <g transform="translate(1150,40)">
+    <path d="M0 -18 L10 12 L0 6 L-10 12 Z" fill="#2E2A26"/>
+    <text x="0" y="-24" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="18" fill="#2E2A26">N</text>
+  </g>
+  <g transform="translate(1090,700) rotate(-4)">
+    <rect x="-4" y="40" width="8" height="70" fill="#9C6B3F" stroke="#4A3426"/>
+    <rect x="-70" y="-10" width="140" height="62" rx="4" fill="#C8A57C" stroke="#4A3426" stroke-width="2"/>
+    <text x="0" y="14" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="18" fill="#2E2A26">Ontdek de stad</text>
+    <text x="0" y="36" text-anchor="middle" font-family="Patrick Hand, sans-serif" font-size="18" fill="#2E2A26">op de fiets!</text>
+  </g>
+
+  <g opacity="{{riderOpacity}}">
+    <g>
+      <animateMotion class="ride-anim" dur="5s" repeatCount="indefinite" keyTimes="0;0.85;1" keyPoints="0;1;1" calcMode="linear"><mpath href="#leg"/></animateMotion>
+      <use href="#cyclist" x="0" y="4"/>
+      <g transform="translate(0,-96)">
+        <rect x="-18" y="-13" width="36" height="24" rx="12" fill="#2E2A26"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="13" fill="#FFF8EF">Jij</text>
+      </g>
+    </g>
+  </g>
+  <g opacity="{{parkedOpacity}}">
+    <use href="#bikeParked" x="548" y="338"/>
+    <use href="#standing" x="590" y="340"/>
+  </g>
+</svg>
