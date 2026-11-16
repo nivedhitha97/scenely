@@ -1,3 +1,4 @@
+import { Caveat_700Bold } from "@expo-google-fonts/caveat";
 import { Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold, Nunito_900Black } from "@expo-google-fonts/nunito";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -16,6 +17,8 @@ export default function RootLayout() {
     Nunito_700Bold,
     Nunito_800ExtraBold,
     Nunito_900Black,
+    // Hand-lettered place names on the map.
+    Caveat_700Bold,
   });
 
   useEffect(() => {

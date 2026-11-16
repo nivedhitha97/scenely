@@ -6,6 +6,12 @@ import { Canvas, r, rot } from "./shapes";
 /** How the person behind the counter looks right now. */
 export type Mood = "neutral" | "talk" | "listen" | "happy" | "puzzled";
 
+/** Who the learner talks to: behind the café counter, at the supermarket checkout, or a customer. */
+export type Person = "barista" | "klant" | "kassa" | "shopper";
+
+/** Where the scene takes place. */
+export type Setting = "cafe" | "supermarkt";
+
 /** The café illustration is drawn on a 350 × 290 grid and scaled to fit. */
 export const CAFE_WIDTH = 350;
 export const CAFE_HEIGHT = 290;
@@ -13,10 +19,12 @@ export const CAFE_HEIGHT = 290;
 const LOOKS = {
   barista: { shirt: "#F3EEE6", hair: "#3B2E2A", skin: "#E8B996", nose: "#C59D80", apron: true, glasses: false },
   klant: { shirt: "#D98C7A", hair: "#2E3440", skin: "#B98263", nose: "#9D6F54", apron: false, glasses: true },
+  kassa: { shirt: "#3F7A62", hair: "#6B3E2A", skin: "#F0C9A8", nose: "#D9A88A", apron: false, glasses: false },
+  shopper: { shirt: "#7FA6C2", hair: "#1F1A17", skin: "#8C5A3C", nose: "#74472F", apron: false, glasses: false },
 };
 
 /** The other person in the scene, waist up, on a 120 × 190 grid. */
-function drawPerson(c: Canvas, kind: "barista" | "klant", mood: Mood, gesture: boolean) {
+function drawPerson(c: Canvas, kind: Person, mood: Mood, gesture: boolean) {
   const o = LOOKS[kind];
   const ink = "#293B3A";
   const lip = "#7A4A3A";
@@ -39,11 +47,23 @@ function drawPerson(c: Canvas, kind: "barista" | "klant", mood: Mood, gesture: b
   }
   c.box(50, 72, 20, 22, o.nose);
   c.box(46, 88, 28, 10, o.apron ? "#fff" : o.shirt, r(0, 0, 14, 14));
+  if (kind === "kassa") {
+    // polo collar and a name badge
+    c.box(44, 86, 14, 12, "#2F6B55", { ...r(2), ...rot(-20) });
+    c.box(62, 86, 14, 12, "#2F6B55", { ...r(2), ...rot(20) });
+    c.box(72, 118, 20, 10, "#FFFDF8", r(2));
+  }
   c.box(32, 12, 56, 66, o.skin, r(28, 28, 26, 26));
   // hair
   if (kind === "barista") {
     c.box(24, 4, 72, 36, o.hair, r(36, 36, 8, 26));
     c.box(84, 22, 22, 40, o.hair, { ...r(12), ...rot(-12) });
+  } else if (kind === "kassa") {
+    // ponytail
+    c.box(84, 14, 18, 46, o.hair, { ...r(10), ...rot(16) });
+    c.box(26, 4, 70, 30, o.hair, r(34, 34, 10, 20));
+  } else if (kind === "shopper") {
+    c.box(28, 2, 64, 26, o.hair, r(30, 30, 10, 10));
   } else {
     c.box(44, -12, 30, 28, o.hair, r(15));
     c.box(24, 4, 72, 34, o.hair, r(36, 36, 26, 8));
@@ -137,6 +157,74 @@ function drawCafe(c: Canvas) {
   ));
 }
 
+/** A Dutch supermarket behind the checkout: shelves, a fridge, fruit crates, strip lights. */
+function drawSupermarkt(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#F3EEE4");
+  // strip lights
+  for (const x of [30, 150, 270]) c.box(x, 6, 70, 6, "#FFFDF4", { ...r(3), borderWidth: 1, borderColor: "#E2DACB" });
+  // fruit crates on the left
+  c.box(8, 112, 96, 100, "#E7D3B3", r(4));
+  const fruit: [number, string][] = [[0, "#D9534F"], [1, "#F0A04B"], [2, "#E9C46A"]];
+  for (const [row, col] of fruit) {
+    c.box(14, 118 + row * 32, 84, 26, "#C9A27A", r(3));
+    for (let i = 0; i < 5; i++) c.box(18 + i * 16, 120 + row * 32, 13, 13, col, r(7));
+  }
+  // shelves with groceries
+  c.box(118, 30, 116, 150, "#E6DED1", r(4));
+  const products = ["#E07A5F", "#3D8279", "#F2C14E", "#7FA6C2", "#D98C7A", "#8C5A3C"];
+  for (let shelf = 0; shelf < 4; shelf++) {
+    const y = 40 + shelf * 36;
+    c.box(118, y + 26, 116, 5, "#B7A68E");
+    for (let i = 0; i < 7; i++) {
+      const col = products[(i + shelf * 2) % products.length];
+      const h = 14 + ((i * 7 + shelf * 3) % 10);
+      c.box(124 + i * 15, y + 26 - h, 12, h, col, r(2, 2, 1, 1));
+    }
+  }
+  // fridge with milk and cheese
+  c.box(248, 26, 92, 158, "#DCE8EC", { ...r(6), borderWidth: 5, borderColor: "#B9C7CC" });
+  for (let row = 0; row < 3; row++) c.box(253, 70 + row * 40, 82, 4, "#B9C7CC");
+  for (let i = 0; i < 4; i++) {
+    c.box(258 + i * 19, 44, 13, 24, "#FFFFFF", { ...r(2), borderWidth: 1, borderColor: "#7FA6C2" });
+    c.box(258 + i * 19, 44, 13, 7, "#4F6FA8", r(2, 2, 0, 0));
+  }
+  for (let i = 0; i < 3; i++) c.box(260 + i * 26, 92, 22, 16, "#F2C14E", r(10, 10, 2, 2));
+  for (let i = 0; i < 4; i++) c.box(258 + i * 19, 134, 14, 14, ["#F2F0EA", "#E9C46A"][i % 2], r(3));
+}
+
+/** The checkout: the belt with groceries, a card reader and the register. */
+function drawCheckout(c: Canvas, opts: { bag: boolean; sparkle: boolean }) {
+  c.box(-4, 214, CAFE_WIDTH + 8, 10, "#7E8C8A", r(4));
+  c.box(0, 224, CAFE_WIDTH, 66, "#E9E4DA");
+  c.box(0, 280, CAFE_WIDTH, 10, "#D4CCBE");
+  // conveyor belt
+  c.box(0, 200, 210, 16, "#3E4A49", r(3));
+  for (let i = 0; i < 10; i++) c.box(6 + i * 21, 205, 12, 3, "#56625F", r(2));
+  // groceries on the belt: milk, bread, apples, cheese
+  c.box(20, 166, 22, 36, "#FFFFFF", { ...r(2), borderWidth: 2, borderColor: "#7FA6C2" });
+  c.box(20, 166, 22, 10, "#4F6FA8", r(2, 2, 0, 0));
+  c.box(56, 182, 46, 20, "#D9A066", r(10, 10, 4, 4));
+  for (const x of [112, 126]) c.box(x, 188, 14, 14, "#D9534F", r(7));
+  c.box(146, 184, 30, 18, "#F2C14E", r(2, 14, 2, 2));
+  // register and card reader
+  c.box(250, 150, 64, 40, "#4A5554", r(6));
+  c.box(256, 156, 52, 24, "#BFD8D2", r(3));
+  c.box(276, 190, 12, 24, "#4A5554");
+  c.box(222, 186, 22, 28, "#2E3534", r(4));
+  c.box(226, 190, 14, 9, "#9FD3C7", r(2));
+  if (opts.bag) {
+    c.box(96, 180, 44, 34, "#C69A5B", { ...r(4), borderWidth: 2, borderColor: "#9C714F" });
+    c.box(104, 168, 6, 14, "#3D8279", r(2));
+    c.box(116, 164, 10, 18, "#D9A066", r(4));
+    c.box(128, 170, 8, 12, "#D9534F", r(4));
+  }
+  if (opts.sparkle) {
+    c.box(84, 160, 8, 8, "#EACB78", r(4));
+    c.box(150, 150, 6, 6, "#EACB78", r(3));
+    c.box(152, 176, 5, 5, "#EACB78", r(3));
+  }
+}
+
 function drawCounter(c: Canvas, opts: { cup: boolean; sparkle: boolean }) {
   c.box(-4, 214, CAFE_WIDTH + 8, 10, "#C99A74", r(4));
   c.box(0, 224, CAFE_WIDTH, 66, "#FBF4EA");
@@ -171,9 +259,10 @@ function drawCounter(c: Canvas, opts: { cup: boolean; sparkle: boolean }) {
 }
 
 /**
- * A Dutch café seen from the customer's side: arched window onto a canal, Delft tiles,
- * pastry case, tulips, and the other person behind the counter. Same drawing as the v7 Figma
- * screens. `width` scales the whole picture.
+ * The place the conversation happens, seen from the learner's side, with the other person
+ * behind the counter. `setting` "cafe" is the v7 Figma café (arched canal window, Delft tiles,
+ * pastry case, tulips); "supermarkt" is a checkout with shelves, a fridge and fruit crates.
+ * `width` scales the whole picture.
  */
 export const CafeScene = memo(function CafeScene({
   width,
@@ -183,25 +272,29 @@ export const CafeScene = memo(function CafeScene({
   mood,
   gesture = false,
   tilt = 0,
+  setting = "cafe",
 }: {
   width: number;
   /** Visible height; the picture is cropped from the top when this is shorter. */
   height?: number;
   /** How far down the picture starts, in screen points (default: show the bottom, the counter). */
   cropTop?: number;
-  person: "barista" | "klant";
+  person: Person;
   mood: Mood;
   gesture?: boolean;
   tilt?: number;
+  setting?: Setting;
 }) {
   const scale = width / CAFE_WIDTH;
   const happy = mood === "happy";
   const room = new Canvas();
-  drawCafe(room);
+  if (setting === "supermarkt") drawSupermarkt(room);
+  else drawCafe(room);
   const someone = new Canvas();
   drawPerson(someone, person, mood, gesture);
   const counter = new Canvas();
-  drawCounter(counter, { cup: happy, sparkle: happy });
+  if (setting === "supermarkt") drawCheckout(counter, { bag: happy, sparkle: happy });
+  else drawCounter(counter, { cup: happy, sparkle: happy });
   const top = cropTop !== undefined ? -cropTop : height - CAFE_HEIGHT * scale;
   return (
     <View style={{ width, height, overflow: "hidden", backgroundColor: "#F4E6D6" }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none">

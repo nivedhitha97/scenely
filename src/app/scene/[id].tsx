@@ -2,8 +2,9 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 import { Button } from "@/components/Button";
-import { ScenePlayer } from "@/components/ScenePlayer";
+import { ScenePlayer, type SceneOutcome } from "@/components/ScenePlayer";
 import { walkAfter } from "@/engine/places";
+import { encodeResult } from "@/engine/result";
 import { useGame } from "@/hooks/useGame";
 import { findScene, scenesNl } from "@/scenes";
 import { placesNl } from "@/scenes/nl/places";
@@ -24,14 +25,14 @@ export default function SceneScreen() {
     );
   }
 
-  // Saves the completion. If it finished a place, the map plays the walk to the next place.
-  // The "Gelukt!" screen arrives later.
-  const finish = (attempts: Record<string, number>) => {
-    const { before, after } = game.recordCompletion(scene.id, attempts);
+  // Saves the completion, then shows "Goed gedaan!". If it finished a place, the map plays the walk to
+  // the next place when the learner gets back there.
+  const finish = ({ attempts, answers, spoken }: SceneOutcome) => {
+    const { before, after, badgeEarned } = game.recordCompletion(scene.id, attempts);
     const walk = walkAfter(placesNl, scenesNl, before, after);
     if (walk) game.setPendingWalk({ from: walk.from.id, to: walk.to.id });
-    if (router.canGoBack()) router.back();
-    else router.replace("/");
+    // The play-through travels in the route params, so the screen has it on its first render.
+    router.replace({ pathname: "/done/[id]", params: { id: scene.id, ...encodeResult({ badgeEarned, answers, spoken }) } });
   };
 
   return <ScenePlayer key={scene.id} scene={scene} onClose={() => router.back()} onFinish={finish} />;

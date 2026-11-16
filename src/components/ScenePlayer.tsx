@@ -10,7 +10,7 @@ import { askMicPermission, canListen, micPermission } from "@/services/listening
 import { useTheme } from "@/themes";
 import { AnswerCard, type AnswerState } from "./AnswerCard";
 import { Button } from "./Button";
-import { CAFE_HEIGHT, CAFE_WIDTH, CafeScene, type Mood } from "./CafeScene";
+import { CAFE_HEIGHT, CAFE_WIDTH, CafeScene, type Mood, type Person, type Setting } from "./CafeScene";
 import { Icon } from "./Icon";
 import { MicPermission } from "./MicPermission";
 import { SpeakActions, SpeakCard } from "./SpeakPanel";
@@ -26,6 +26,27 @@ type SpeakMode = "off" | "permission" | "speak";
  * or go on without speaking. Speaking is only offered where speech recognition works
  * (a development build or a browser, not Expo Go).
  */
+const PEOPLE: readonly Person[] = ["barista", "klant", "kassa", "shopper"];
+
+/** The other person in the picture: the scene's `character`, or a customer if it is unknown. */
+function personFor(scene: Scene): Person {
+  return (PEOPLE as readonly string[]).includes(scene.character) ? (scene.character as Person) : "klant";
+}
+
+/** Where the picture is set: the scene's `background`, or the café. */
+function settingFor(scene: Scene): Setting {
+  return scene.background === "supermarkt" ? "supermarkt" : "cafe";
+}
+
+/** What the scene reports when the learner taps "Klaar". */
+export type SceneOutcome = {
+  attempts: Record<string, number>;
+  /** Correct choice id per player turn. */
+  answers: Record<string, string>;
+  /** Player turns whose sentence was said out loud and understood. */
+  spoken: string[];
+};
+
 export function ScenePlayer({
   scene,
   onClose,
@@ -33,15 +54,17 @@ export function ScenePlayer({
 }: {
   scene: Scene;
   onClose: () => void;
-  onFinish: (attempts: Record<string, number>) => void;
+  onFinish: (result: SceneOutcome) => void;
 }) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-  const { state, turn, line, choiceTurn, voiceStatus, tulips, say, sayText, choose, next } = useScene(scene);
+  const { state, turn, line, choiceTurn, voiceStatus, tulips, say, sayAnswer, sayText, choose, next } = useScene(scene);
   const [canSpeak] = useState(canListen);
   const [speakMode, setSpeakMode] = useState<SpeakMode>("off");
   const [micNote, setMicNote] = useState<string | null>(null);
+  // Player turns whose sentence was said out loud and understood.
+  const [spoken, setSpoken] = useState<string[]>([]);
 
   const reaction = state.lastReaction;
   const feedback = state.status === "feedback";
@@ -62,7 +85,7 @@ export function ScenePlayer({
   };
 
   const prompt = feedback
-    ? { text: "Goed zo!", colour: t.colors.correct }
+    ? { text: "Goed zo! Zeg het mee.", colour: t.colors.correct }
     : wrongHere
       ? { text: "Luister nog eens en probeer opnieuw.", colour: t.colors.inkMuted }
       : { text: choiceTurn?.prompt ?? "Kies je antwoord", colour: t.colors.ink };
@@ -70,7 +93,8 @@ export function ScenePlayer({
   // The sentence the learner just chose correctly: the one to say out loud.
   const spokenSentence = feedback && reaction ? choiceTurn?.choices.find((c) => c.id === reaction.choiceId)?.label : undefined;
 
-  const continueScene = () => {
+  const continueScene = (understood = false) => {
+    if (understood && reaction) setSpoken((list) => (list.includes(reaction.turnId) ? list : [...list, reaction.turnId]));
     setSpeakMode("off");
     setMicNote(null);
     next();
@@ -91,7 +115,7 @@ export function ScenePlayer({
   };
 
   let footer: { label: string; onPress: () => void } | null = null;
-  if (state.status === "done") footer = { label: "Klaar", onPress: () => onFinish(state.attempts) };
+  if (state.status === "done") footer = { label: "Klaar", onPress: () => onFinish({ attempts: state.attempts, answers: state.answers, spoken }) };
   else if (feedback || (!choiceTurn && turn.kind === "npc")) footer = { label: "Verder", onPress: next };
   const offerSpeaking = canSpeak && feedback && !!spokenSentence;
 
@@ -120,7 +144,8 @@ export function ScenePlayer({
             <CafeScene
               width={stageWidth}
               height={stageHeight}
-              person={scene.character === "barista" ? "barista" : "klant"}
+              person={personFor(scene)}
+              setting={settingFor(scene)}
               mood={mood}
               gesture={firstLine && !wrongHere}
               tilt={wrongHere ? 3 : 0}
@@ -166,7 +191,29 @@ export function ScenePlayer({
 
         {choiceTurn && (
           <>
-            <Text style={[s.prompt, { color: prompt.colour, fontFamily: t.fonts.bodyBold }]}>{prompt.text}</Text>
+            <View style={s.promptRow}>
+              <Text style={[s.prompt, { color: prompt.colour, fontFamily: t.fonts.bodyBold }]}>{prompt.text}</Text>
+              {feedback && !voiceMissing && (
+                <View style={s.promptBtns}>
+                  <Pressable
+                    onPress={() => sayAnswer(false)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Luister naar je antwoord"
+                    style={({ pressed }) => [s.round, { backgroundColor: t.colors.correctSoft, opacity: pressed ? 0.7 : 1 }]}
+                  >
+                    <Icon name="volume" size={18} color={t.colors.correct} />
+                  </Pressable>
+                  <Pressable
+                    onPress={() => sayAnswer(true)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Je antwoord langzaam"
+                    style={({ pressed }) => [s.round, { backgroundColor: t.colors.correctSoft, opacity: pressed ? 0.7 : 1 }]}
+                  >
+                    <Icon name="snail" size={18} color={t.colors.correct} strokeWidth={2} />
+                  </Pressable>
+                </View>
+              )}
+            </View>
             <View style={s.answers}>
               {choiceTurn.choices.map((c, i) => (
                 <AnswerCard
@@ -188,7 +235,7 @@ export function ScenePlayer({
         <View style={[s.footer, { paddingBottom: insets.bottom + 8 }]}>
           {micNote && <Text style={[s.micNote, { color: t.colors.primaryDark, fontFamily: t.fonts.bodyBold }]}>{micNote}</Text>}
           <Button label="Zeg het hardop" onPress={sayAloud} icon={<Icon name="mic" size={20} color="#fff" />} />
-          <Button label="Verder zonder spreken" onPress={continueScene} variant="text" />
+          <Button label="Verder zonder spreken" onPress={() => continueScene()} variant="text" />
         </View>
       ) : (
         footer && (
@@ -198,7 +245,7 @@ export function ScenePlayer({
         )
       )}
 
-      {speakMode === "permission" && <MicPermission onAllow={allowMic} onDecline={continueScene} />}
+      {speakMode === "permission" && <MicPermission onAllow={allowMic} onDecline={() => continueScene()} />}
     </View>
   );
 }
@@ -244,7 +291,8 @@ function SpeakExercise({
   dots: { done: number; total: number };
   onClose: () => void;
   onSay: (text: string, slow: boolean) => void;
-  onDone: () => void;
+  /** `understood` is true when the last attempt was "Goed verstaan". */
+  onDone: (understood: boolean) => void;
 }) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
@@ -262,7 +310,8 @@ function SpeakExercise({
               width={stageWidth}
               height={180 * scale}
               cropTop={40 * scale}
-              person={scene.character === "barista" ? "barista" : "klant"}
+              person={personFor(scene)}
+              setting={settingFor(scene)}
               mood={verdictKind === "good" ? "happy" : "listen"}
             />
           </View>
@@ -285,7 +334,7 @@ function SpeakExercise({
           verdict={verdictKind}
           onMic={speaking.phase === "listening" ? speaking.stop : speaking.start}
           onRetry={speaking.start}
-          onDone={onDone}
+          onDone={() => onDone(verdictKind === "good")}
         />
       </View>
     </View>
@@ -311,7 +360,10 @@ const s = StyleSheet.create({
   ac: { height: 40, paddingLeft: 9, paddingRight: 12, borderRadius: 12, flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#F7F1E8" },
   acText: { fontSize: 13 },
   voiceNote: { marginTop: 10, padding: 10, borderRadius: 12, fontSize: 13, overflow: "hidden" },
-  prompt: { fontSize: 15, paddingHorizontal: 20, paddingTop: 14, paddingBottom: 8 },
+  promptRow: { flexDirection: "row", alignItems: "center", paddingRight: 20, minHeight: 44 },
+  prompt: { flex: 1, fontSize: 15, paddingHorizontal: 20, paddingTop: 14, paddingBottom: 8 },
+  promptBtns: { flexDirection: "row", gap: 8, paddingTop: 6 },
+  round: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center" },
   answers: { paddingHorizontal: 20, gap: 10 },
   footer: { paddingHorizontal: 20, paddingTop: 10 },
   micNote: { fontSize: 13, textAlign: "center", marginBottom: 8 },

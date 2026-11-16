@@ -3,11 +3,14 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon } from "@/components/Icon";
 import type { Place, PlaceStatus } from "@/engine/places";
 import { useTheme } from "@/themes";
-import { C, shadow } from "./palette";
+import { C } from "./palette";
 
 const WIDTH = 220;
+const OUTLINE = "#4A3426";
+/** Hand-lettered names, to match the drawn map. */
+const HAND = "Caveat_700Bold";
 
-/** Tappable name tag under a building on the map. */
+/** Tappable hand-lettered name tag above a building on the map. */
 export function PlaceLabel({
   place,
   status,
@@ -22,25 +25,24 @@ export function PlaceLabel({
   here: boolean;
   isNew: boolean;
   selected: boolean;
+  /** Roles, read out by screen readers. */
   sub: string;
   onPress: () => void;
 }) {
   const t = useTheme();
   const locked = status === "locked" || status === "soon";
-  const filled = here && !isNew;
+  const pos = place.label ?? { x: place.door.x, y: place.door.y + 10 };
   return (
-    <View style={[s.wrap, { left: place.door.x - WIDTH / 2, top: place.door.y + 10 }]} pointerEvents="box-none">
+    <View style={[s.wrap, { left: pos.x - WIDTH / 2, top: pos.y }]} pointerEvents="box-none">
       <Pressable
         onPress={onPress}
         accessibilityRole="button"
-        accessibilityLabel={`${place.title}${status === "done" ? ", klaar" : locked ? ", op slot" : ""}${here ? ", hier ben je" : ""}`}
+        accessibilityLabel={`${place.title}${status === "done" ? ", klaar" : locked ? ", op slot" : ""}${here ? ", hier ben je" : ""}. ${sub}`}
+        hitSlop={6}
         style={[
           s.tag,
-          shadow,
-          { backgroundColor: filled ? C.coral : "#fff" },
-          isNew && { borderWidth: 2, borderColor: C.coral, paddingLeft: 6 },
-          selected && !filled && { borderWidth: 2, borderColor: C.ink },
-          locked && !isNew && { paddingLeft: 6 },
+          (here || selected || isNew) && { borderWidth: 2.4, borderColor: "#2E2A26" },
+          here && !isNew && { backgroundColor: C.peach },
         ]}
       >
         {isNew && (
@@ -50,27 +52,31 @@ export function PlaceLabel({
         )}
         {status === "done" && (
           <View style={[s.dot, { backgroundColor: C.teal }]}>
-            <Icon name="tick" size={11} color="#fff" strokeWidth={3.6} />
+            <Icon name="tick" size={13} color="#fff" strokeWidth={3.6} />
           </View>
         )}
-        {locked && !isNew && (
-          <View style={[s.dot, { backgroundColor: C.stone }]}>
-            <Icon name="lock" size={11} color={C.grey} strokeWidth={2.6} />
-          </View>
-        )}
-        <Text style={[s.name, { color: filled ? "#fff" : C.ink, fontFamily: t.fonts.bodyBold }]}>{place.title}</Text>
+        {locked && !isNew && <Icon name="lock" size={16} color="#6F7775" strokeWidth={2.4} />}
+        <Text style={[s.name, { color: locked && !isNew ? "#4E5655" : "#2E2A26" }]}>{place.title}</Text>
       </Pressable>
-      <Text style={[s.sub, { fontFamily: t.fonts.bodyBold }]}>{sub}</Text>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  wrap: { position: "absolute", width: WIDTH, alignItems: "center", gap: 3 },
-  tag: { height: 30, borderRadius: 15, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", gap: 6 },
-  name: { fontSize: 13 },
-  dot: { width: 20, height: 20, borderRadius: 10, alignItems: "center", justifyContent: "center" },
-  newPill: { height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: C.coral, justifyContent: "center" },
-  newText: { color: "#fff", fontSize: 10 },
-  sub: { fontSize: 11, color: C.grey, backgroundColor: "rgba(255,253,248,0.85)", paddingHorizontal: 8, paddingVertical: 1, borderRadius: 8, overflow: "hidden" },
+  wrap: { position: "absolute", width: WIDTH, alignItems: "center" },
+  tag: {
+    minHeight: 36,
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "#FFFDF7",
+    borderWidth: 1.8,
+    borderColor: OUTLINE,
+  },
+  name: { fontFamily: HAND, fontSize: 22, lineHeight: 26 },
+  dot: { width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
+  newPill: { height: 22, paddingHorizontal: 7, borderRadius: 11, backgroundColor: C.coral, justifyContent: "center" },
+  newText: { color: "#fff", fontSize: 10.5 },
 });
