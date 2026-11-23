@@ -1,3 +1,4 @@
+import { StatusBar } from "expo-status-bar";
 import { Redirect, router, useIsFocused } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View, type ScrollViewInstance } from "react-native";
@@ -15,9 +16,11 @@ import { PlaceLabel } from "@/components/map/PlaceLabel";
 import { PlaceSheet } from "@/components/map/PlaceSheet";
 import { legBetween, legPath } from "@/components/map/route";
 import { currentPlace, discoveredCount, placeStatus, type Place } from "@/engine/places";
+import { greeting } from "@/engine/scenery";
 import { sceneStatus } from "@/engine/progress";
 import { useAuth } from "@/hooks/useAuth";
 import { useGame } from "@/hooks/useGame";
+import { useScenery } from "@/hooks/useScenery";
 import { scenesNl } from "@/scenes";
 import { placesNl } from "@/scenes/nl/places";
 import { useTheme } from "@/themes";
@@ -30,6 +33,8 @@ export default function MapScreen() {
   const t = useTheme();
   const game = useGame();
   const auth = useAuth();
+  const { scenery, sky, clock } = useScenery();
+  const darkSky = scenery.phase === "night" || scenery.phase === "dusk";
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const reduceMotion = useReducedMotion();
@@ -108,6 +113,8 @@ export default function MapScreen() {
 
   return (
     <View style={[s.screen, { backgroundColor: t.colors.paper }]}>
+      {/* Light status-bar text over a dark night sky; only while the map is on screen. */}
+      {focused && darkSky && <StatusBar style="light" />}
       <ScrollView
         ref={vScroll}
         bounces={false}
@@ -120,7 +127,7 @@ export default function MapScreen() {
       >
         <ScrollView ref={hScroll} horizontal bounces={false} showsHorizontalScrollIndicator={false}>
           <View style={{ width: MAP_WIDTH, height: MAP_HEIGHT }}>
-            <AmsterdamMap />
+            <AmsterdamMap scenery={scenery} sky={sky} />
             {walking && walk && (
               <Svg style={StyleSheet.absoluteFill} width={MAP_WIDTH} height={MAP_HEIGHT} pointerEvents="none">
                 <Path d={legPath(walk.leg)} stroke="#E0603F" strokeWidth={6} strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={0.85} />
@@ -166,7 +173,7 @@ export default function MapScreen() {
       ) : (
         <View style={[s.hud, { backgroundColor: t.colors.card }, shadow, { top: insets.top + 8 }]}>
           <View style={s.hudText}>
-            <Text style={[s.hudTitle, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>Hallo!</Text>
+            <Text style={[s.hudTitle, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>{greeting(clock)}</Text>
             <Text style={[s.hudSub, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyBold }]}>
               {discoveredCount(places, scenes, game.progress)} van {places.length} plekken ontdekt
             </Text>

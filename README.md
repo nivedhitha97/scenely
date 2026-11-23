@@ -119,6 +119,17 @@ src/
     └── nl.ts            # Nederland theme
 ```
 
+## The map follows your day and season
+
+- The map uses the phone's clock and time zone: a pink dawn, a pale morning, a bright day, a golden evening, a purple dusk and a dark-blue night with stars. After dark the windows and street lamps light up. The sun (by day) or the moon (by night) crosses the sky, and the top card greets you with *Goedemorgen*, *Goedemiddag*, *Goedenavond* or *Goedenacht*.
+- The season comes from the month and the time zone, so the southern hemisphere gets summer in December: blossom and petals in spring, orange trees and falling leaves in autumn, snow, white trees and icy canals in winter.
+- **Settings → Kaart** can preview any time of day or season (Zonsopgang, Ochtend, Middag, Avond, Schemering, Nacht; Lente, Zomer, Herfst, Winter) or go back to *Automatisch*.
+- How it works: `src/engine/scenery.ts` works out the time and season; `src/components/map/sceneryColors.ts` recolours the drawing's colours (season first, then the light of the day); `AmsterdamMap.tsx` adds the sun or moon, stars, snow, leaves and petals.
+
+| Autumn evening | Winter night | Spring morning |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/map-autumn-evening.png" width="200" alt="The map on an autumn evening: orange trees, falling leaves, a warm sky"> | <img src="docs/screenshots/map-winter-night.png" width="200" alt="The map on a winter night: snow, stars, lit windows and lamps"> | <img src="docs/screenshots/map-spring-morning.png" width="200" alt="The map on a spring morning: pale sky, fresh green and blossom petals"> |
+
 ## Accounts, settings and reminders
 
 - **Accounts** use Firebase (project `scenely-eff51`) with Google sign-in. Signing in is optional: without an account everything is saved on the phone only. When you sign in, the phone and the account are merged (no progress is lost on either side; the account's avatar and settings win), and every change is saved to Firestore a moment later.

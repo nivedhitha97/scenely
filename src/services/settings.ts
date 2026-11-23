@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import type { DayPhase, Season } from "@/engine/scenery";
+
 export type ThemeChoice = "system" | "light" | "dark";
 
 export type Reminder = {
@@ -15,12 +17,18 @@ export type Settings = {
   reminder: Reminder;
   /** Offer "Zeg het hardop" after right answers (where speech recognition is available). */
   speaking: boolean;
+  /** The map's sky and season: "auto" follows the phone's clock and time zone; a value previews it. */
+  mapLook: { phase: DayPhase | "auto"; season: Season | "auto" };
 };
+
+const PHASES: readonly DayPhase[] = ["dawn", "morning", "day", "evening", "dusk", "night"];
+const SEASONS: readonly Season[] = ["spring", "summer", "autumn", "winter"];
 
 export const defaultSettings: Settings = {
   theme: "system",
   reminder: { enabled: false, hour: 19, minute: 0 },
   speaking: true,
+  mapLook: { phase: "auto", season: "auto" },
 };
 
 const KEY = "scenely/v1/settings";
@@ -39,6 +47,10 @@ export function parseSettings(value: unknown): Settings {
       minute: inRange(r.minute, 59) ? r.minute : defaultSettings.reminder.minute,
     },
     speaking: typeof v.speaking === "boolean" ? v.speaking : defaultSettings.speaking,
+    mapLook: {
+      phase: (PHASES as readonly string[]).includes(String(v.mapLook?.phase)) ? (v.mapLook!.phase as DayPhase) : "auto",
+      season: (SEASONS as readonly string[]).includes(String(v.mapLook?.season)) ? (v.mapLook!.season as Season) : "auto",
+    },
   };
 }
 
