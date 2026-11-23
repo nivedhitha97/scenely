@@ -14,6 +14,12 @@ describe("settings", () => {
     expect(parseSettings({ theme: "purple" }).theme).toBe("system");
   });
 
+  it("remembers whether the intro has been shown", () => {
+    expect(defaultSettings.introSeen).toBe(false);
+    expect(parseSettings({ introSeen: true }).introSeen).toBe(true);
+    expect(parseSettings({ introSeen: "yes" }).introSeen).toBe(false);
+  });
+
   it("formats reminder times", () => {
     expect(formatTime(8, 0)).toBe("08:00");
     expect(formatTime(12, 30)).toBe("12:30");
