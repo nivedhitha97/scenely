@@ -6,11 +6,25 @@ import { Canvas, r, rot } from "./shapes";
 /** How the person behind the counter looks right now. */
 export type Mood = "neutral" | "talk" | "listen" | "happy" | "puzzled";
 
-/** Who the learner talks to: behind the café counter, at the supermarket checkout, or a customer. */
-export type Person = "barista" | "klant" | "kassa" | "shopper";
+/** Who the learner talks to: someone behind the counter or desk, or a customer, patient or parent. */
+export type Person =
+  | "barista"
+  | "klant"
+  | "kassa"
+  | "shopper"
+  | "kaasboer"
+  | "verkoper"
+  | "dokter"
+  | "verpleegkundige"
+  | "leraar"
+  | "loket";
+
+export const PEOPLE: readonly Person[] = ["barista", "klant", "kassa", "shopper", "kaasboer", "verkoper", "dokter", "verpleegkundige", "leraar", "loket"];
 
 /** Where the scene takes place. */
-export type Setting = "cafe" | "supermarkt";
+export type Setting = "cafe" | "supermarkt" | "markt" | "kleding" | "huisarts" | "ziekenhuis" | "school" | "station";
+
+export const SETTINGS: readonly Setting[] = ["cafe", "supermarkt", "markt", "kleding", "huisarts", "ziekenhuis", "school", "station"];
 
 /** The café illustration is drawn on a 350 × 290 grid and scaled to fit. */
 export const CAFE_WIDTH = 350;
@@ -21,6 +35,12 @@ const LOOKS = {
   klant: { shirt: "#D98C7A", hair: "#2E3440", skin: "#B98263", nose: "#9D6F54", apron: false, glasses: true },
   kassa: { shirt: "#3F7A62", hair: "#6B3E2A", skin: "#F0C9A8", nose: "#D9A88A", apron: false, glasses: false },
   shopper: { shirt: "#7FA6C2", hair: "#1F1A17", skin: "#8C5A3C", nose: "#74472F", apron: false, glasses: false },
+  kaasboer: { shirt: "#FBFBF8", hair: "#B07A4A", skin: "#E8B996", nose: "#C59D80", apron: true, glasses: false },
+  verkoper: { shirt: "#3F3F45", hair: "#2E3440", skin: "#C98E6A", nose: "#A9724F", apron: false, glasses: false },
+  dokter: { shirt: "#FBFBF8", hair: "#5A4636", skin: "#B98263", nose: "#9D6F54", apron: false, glasses: true },
+  verpleegkundige: { shirt: "#8FC3D1", hair: "#1F1A17", skin: "#F0C9A8", nose: "#D9A88A", apron: false, glasses: false },
+  leraar: { shirt: "#C97B57", hair: "#C9C3BA", skin: "#E8B996", nose: "#C59D80", apron: false, glasses: true },
+  loket: { shirt: "#2F5D57", hair: "#3B2E2A", skin: "#8C5A3C", nose: "#74472F", apron: false, glasses: false },
 };
 
 /** The other person in the scene, waist up, on a 120 × 190 grid. */
@@ -53,6 +73,36 @@ function drawPerson(c: Canvas, kind: Person, mood: Mood, gesture: boolean) {
     c.box(62, 86, 14, 12, "#2F6B55", { ...r(2), ...rot(20) });
     c.box(72, 118, 20, 10, "#FFFDF8", r(2));
   }
+  if (kind === "kaasboer") {
+    // striped apron over the blue one
+    for (let i = 0; i < 4; i++) c.box(40 + i * 12, 112, 5, 76, "#FBFBF8", r(2));
+  }
+  if (kind === "verkoper") c.box(72, 116, 20, 10, "#EACB78", r(2)); // name badge
+  if (kind === "dokter") {
+    // white coat lapels and a stethoscope
+    c.box(40, 92, 12, 60, "#E6E2DA", rot(-10));
+    c.box(68, 92, 12, 60, "#E6E2DA", rot(10));
+    c.box(44, 92, 32, 36, "transparent", { borderColor: "#4A5A60", borderWidth: 3, borderTopWidth: 0, ...r(0, 0, 16, 16) });
+    c.box(56, 126, 9, 9, "#9AA8AD", r(5));
+    c.box(26, 120, 14, 18, "#7FA6C2", r(2)); // pen in the pocket
+  }
+  if (kind === "verpleegkundige") {
+    c.box(46, 88, 28, 16, "#E8F0F4", r(0, 0, 14, 14));
+    c.box(48, 92, 3, 34, "#3D8279");
+    c.box(69, 92, 3, 34, "#3D8279");
+    c.box(52, 124, 16, 20, "#FFFDF8", { ...r(2), borderWidth: 2, borderColor: "#3D8279" });
+  }
+  if (kind === "leraar") {
+    // cardigan over a light shirt
+    c.box(46, 90, 28, 100, "#F4EBD3");
+    for (const y of [116, 136, 156]) c.box(42, y, 5, 5, "#8C5A3C", r(3));
+  }
+  if (kind === "loket") {
+    // uniform jacket with a yellow scarf
+    c.box(46, 88, 28, 12, "#EACB78", r(0, 0, 12, 12));
+    c.box(64, 96, 10, 26, "#EACB78", r(3));
+    c.box(26, 120, 16, 10, "#FFFDF8", r(2));
+  }
   c.box(32, 12, 56, 66, o.skin, r(28, 28, 26, 26));
   // hair
   if (kind === "barista") {
@@ -64,6 +114,25 @@ function drawPerson(c: Canvas, kind: Person, mood: Mood, gesture: boolean) {
     c.box(26, 4, 70, 30, o.hair, r(34, 34, 10, 20));
   } else if (kind === "shopper") {
     c.box(28, 2, 64, 26, o.hair, r(30, 30, 10, 10));
+  } else if (kind === "kaasboer") {
+    // a flat cap
+    c.box(28, 8, 64, 22, o.hair, r(30, 30, 6, 6));
+    c.box(26, -2, 68, 20, "#3E5A64", r(30, 30, 4, 4));
+    c.box(60, 12, 40, 7, "#3E5A64", r(4));
+  } else if (kind === "verkoper") {
+    c.box(28, 4, 64, 24, o.hair, r(30, 30, 6, 16));
+    c.box(30, 0, 30, 16, o.hair, { ...r(10), ...rot(-12) });
+  } else if (kind === "dokter") {
+    c.box(28, 6, 64, 22, o.hair, r(30, 30, 8, 8));
+  } else if (kind === "verpleegkundige") {
+    c.box(46, -10, 28, 26, o.hair, r(14));
+    c.box(26, 4, 68, 30, o.hair, r(34, 34, 8, 8));
+  } else if (kind === "leraar") {
+    c.box(24, 2, 72, 30, o.hair, r(36, 36, 14, 14));
+    c.box(22, 22, 14, 36, o.hair, r(7));
+    c.box(84, 22, 14, 36, o.hair, r(7));
+  } else if (kind === "loket") {
+    for (const [x, y] of [[30, 6], [44, 0], [60, 0], [74, 6], [28, 18], [82, 18]]) c.box(x, y, 18, 18, o.hair, r(9));
   } else {
     c.box(44, -12, 30, 28, o.hair, r(15));
     c.box(24, 4, 72, 34, o.hair, r(36, 36, 26, 8));
@@ -225,6 +294,253 @@ function drawCheckout(c: Canvas, opts: { bag: boolean; sparkle: boolean }) {
   }
 }
 
+/** Behind the cheese stall at the market: canal houses, the sky and the striped awning. */
+function drawMarkt(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#CFE6F0");
+  const houses: [number, number, string][] = [[0, 70, "#A65E46"], [56, 50, "#E8C35B"], [118, 64, "#3F6156"], [176, 44, "#D98C7A"], [238, 58, "#C9974B"], [296, 48, "#5E7E9A"]];
+  for (const [x, y, col] of houses) {
+    c.box(x, y, 58, 200, col, { ...r(18, 18, 0, 0), borderWidth: 2, borderColor: "#4A3426" });
+    c.box(x + 12, y + 22, 12, 16, "#FBF4E8", { borderWidth: 1.5, borderColor: "#4A3426" });
+    c.box(x + 34, y + 22, 12, 16, "#FBF4E8", { borderWidth: 1.5, borderColor: "#4A3426" });
+  }
+  // the awning over the stall
+  for (let i = 0; i < 9; i++) c.box(i * 40 - 6, 0, 40, 40, i % 2 ? "#FFF8EF" : "#E0603F");
+  for (let i = 0; i < 9; i++) c.box(i * 40 - 6, 30, 40, 22, i % 2 ? "#FFF8EF" : "#E0603F", r(0, 0, 20, 20));
+  c.box(0, 0, 6, 220, "#7E6A5A");
+  c.box(CAFE_WIDTH - 6, 0, 6, 220, "#7E6A5A");
+  // chalkboard with prices
+  c.box(14, 92, 70, 52, "#2E3440", { ...r(4), borderWidth: 4, borderColor: "#9C714F" });
+  for (const [y, w] of [[104, 44], [116, 36], [128, 48]] as const) c.box(22, y, w, 4, "#FFF8EF", r(2));
+}
+
+/** The stall: cheese wheels, a cut wedge and the scales. */
+function drawStall(c: Canvas, opts: { bag: boolean; sparkle: boolean }) {
+  c.box(-4, 214, CAFE_WIDTH + 8, 10, "#9C714F", r(4));
+  c.box(0, 224, CAFE_WIDTH, 66, "#C69A5B");
+  for (let i = 0; i < 6; i++) c.box(i * 60, 224, 4, 66, "#B0844C");
+  for (const [x, y, w] of [[10, 176, 70], [24, 150, 50], [86, 186, 62]] as const) {
+    c.box(x, y, w, 30, "#F2C14E", { ...r(14), borderWidth: 2, borderColor: "#D9A23A" });
+    c.box(x + 6, y + 10, w - 12, 4, "#E8B84A", r(2));
+  }
+  c.box(156, 190, 40, 24, "#F2C14E", r(2, 20, 2, 2)); // a cut wedge
+  c.box(166, 198, 6, 5, "#D9A23A", r(3));
+  // scales
+  c.box(250, 170, 64, 10, "#B9C7CC", r(5));
+  c.box(276, 180, 12, 20, "#8C9A98");
+  c.box(256, 196, 52, 18, "#4A5554", r(4));
+  c.box(264, 200, 26, 9, "#9FD3C7", r(2));
+  if (opts.bag) {
+    c.box(200, 186, 40, 28, "#E9DCCB", { ...r(4), borderWidth: 2, borderColor: "#C9B79C" });
+    c.box(206, 192, 26, 14, "#F2C14E", r(10));
+  }
+  if (opts.sparkle) sparkles(c);
+}
+
+/** A clothes shop: rails of shirts, a mirror and folded jumpers. */
+function drawKleding(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#F6EFE6");
+  c.box(0, 196, CAFE_WIDTH, 30, "#E9DCCB");
+  // rail with hanging shirts
+  c.box(8, 34, 112, 5, "#7E6A5A", r(3));
+  const shirts = ["#3F6156", "#E8C25A", "#7FA6C2", "#D98C7A", "#3E5A64", "#C97B57"];
+  shirts.forEach((col, i) => {
+    c.box(14 + i * 17, 36, 2, 10, "#7E6A5A");
+    c.box(8 + i * 17, 44, 16, 60 + (i % 2) * 14, col, r(6, 6, 2, 2));
+  });
+  // mirror
+  c.box(292, 24, 46, 150, "#DCE8EC", { ...r(23, 23, 4, 4), borderWidth: 5, borderColor: "#C9A27A" });
+  c.box(302, 40, 6, 60, "#FFFFFF", { ...r(3), opacity: 0.7 });
+  // shelf with folded jumpers
+  c.box(222, 74, 60, 5, "#9C714F", r(3));
+  c.box(222, 124, 60, 5, "#9C714F", r(3));
+  for (const [y, cols] of [[52, ["#E8C25A", "#7FA6C2"]], [102, ["#D98C7A", "#3F6156"]]] as const)
+    cols.forEach((col, i) => {
+      c.box(226 + i * 28, y, 26, 11, col, r(3));
+      c.box(226 + i * 28, y + 11, 26, 11, col, { ...r(3), opacity: 0.85 });
+    });
+  // a plant
+  c.box(252, 150, 26, 30, "#C46E4E", r(3, 3, 8, 8));
+  c.box(248, 118, 34, 36, "#7DAE48", r(17));
+}
+
+/** The shop counter: folded clothes, a card reader and a paper bag when it is sold. */
+function drawShopCounter(c: Canvas, opts: { bag: boolean; sparkle: boolean }) {
+  c.box(-4, 214, CAFE_WIDTH + 8, 10, "#3F3F45", r(4));
+  c.box(0, 224, CAFE_WIDTH, 66, "#FBF4EA");
+  c.box(0, 280, CAFE_WIDTH, 10, "#E9DCCB");
+  c.box(30, 196, 60, 18, "#7FA6C2", r(4));
+  c.box(30, 182, 60, 14, "#3E5A64", r(4));
+  c.box(222, 186, 22, 28, "#2E3534", r(4));
+  c.box(226, 190, 14, 9, "#9FD3C7", r(2));
+  if (opts.bag) {
+    c.box(120, 168, 44, 46, "#C69A5B", { ...r(4), borderWidth: 2, borderColor: "#9C714F" });
+    c.box(132, 156, 20, 14, "transparent", { borderWidth: 3, borderBottomWidth: 0, borderColor: "#9C714F", ...r(10, 10, 0, 0) });
+  }
+  if (opts.sparkle) sparkles(c);
+}
+
+/** The GP's room: a window, a diploma, a shelf with files and an eye chart. */
+function drawHuisarts(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#EEF2EF");
+  c.box(16, 20, 96, 90, "#CFE6F0", { ...r(4), borderWidth: 5, borderColor: "#FFFFFF" });
+  c.box(16, 70, 96, 40, "#9DBB67");
+  c.box(62, 20, 4, 90, "#FFFFFF");
+  c.box(30, 144, 70, 6, "#B9A58C", r(3));
+  ["#7FA6C2", "#D98C7A", "#3D8279", "#E8C25A", "#7FA6C2"].forEach((col, i) => c.box(34 + i * 12, 120 + (i % 2) * 4, 10, 24 - (i % 2) * 4, col, r(2)));
+  // eye chart
+  c.box(270, 20, 56, 84, "#FFFFFF", { ...r(3), borderWidth: 2, borderColor: "#C9D6E3" });
+  [[290, 30, 16], [286, 50, 24], [282, 66, 32], [280, 80, 36], [279, 92, 38]].forEach(([x, y, w]) => c.box(x, y, w, 5, "#293B3A", r(2)));
+  // diploma
+  c.box(208, 34, 44, 34, "#FBF4E8", { borderWidth: 3, borderColor: "#C9A27A" });
+  c.box(216, 44, 28, 3, "#B9A58C");
+  c.box(216, 52, 20, 3, "#B9A58C");
+  // plant
+  c.box(312, 142, 24, 28, "#E9DCCB", r(3, 3, 8, 8));
+  c.box(306, 108, 36, 40, "#7DAE48", r(18));
+}
+
+/** A desk with a computer: for the GP, the hospital desk and the ticket office. */
+function drawDesk(c: Canvas, opts: { top: string; front: string; stripe?: string; sparkle: boolean; extra?: (c: Canvas) => void }) {
+  c.box(-4, 214, CAFE_WIDTH + 8, 10, opts.top, r(4));
+  c.box(0, 224, CAFE_WIDTH, 66, opts.front);
+  if (opts.stripe) c.box(0, 246, CAFE_WIDTH, 8, opts.stripe);
+  c.box(0, 280, CAFE_WIDTH, 10, "rgba(0,0,0,0.06)");
+  // computer
+  c.box(236, 154, 74, 50, "#3E4A49", r(5));
+  c.box(242, 160, 62, 38, "#BFD8D2", r(3));
+  c.box(266, 204, 14, 10, "#3E4A49");
+  // papers and a pen
+  c.box(40, 200, 54, 14, "#FFFFFF", { ...r(2), ...rot(-4) });
+  c.box(100, 204, 34, 4, "#3E5A64", { ...r(2), ...rot(10) });
+  opts.extra?.(c);
+  if (opts.sparkle) sparkles(c);
+}
+
+/** The hospital entrance desk: a blue wall, signs to the departments and a clock. */
+function drawZiekenhuis(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#E4EEF2");
+  c.box(0, 150, CAFE_WIDTH, 70, "#CFE0EA");
+  // department signs with arrows
+  for (const [y, col] of [[18, "#3D8279"], [50, "#4F6FA8"], [82, "#C46E4E"]] as const) {
+    c.box(12, y, 96, 26, col, r(4));
+    c.box(20, y + 11, 52, 4, "#FFFFFF", r(2));
+    c.box(84, y + 8, 14, 10, "#FFFFFF", r(2, 6, 6, 2));
+  }
+  // clock
+  c.box(286, 22, 48, 48, "#FFFFFF", { ...r(24), borderWidth: 4, borderColor: "#7E8C8A" });
+  c.box(308, 32, 4, 16, "#293B3A", r(2));
+  c.box(309, 44, 16, 4, "#293B3A", r(2));
+  // a red cross sign
+  c.box(286, 96, 48, 48, "#FFFFFF", r(6));
+  c.box(304, 104, 12, 32, "#D9534F", r(2));
+  c.box(294, 114, 32, 12, "#D9534F", r(2));
+}
+
+/** A classroom: the chalkboard, bunting and children's drawings. */
+function drawSchool(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#FBF1DC");
+  // bunting
+  ["#E0603F", "#E8C25A", "#7FA6C2", "#3D8279", "#D98C7A", "#E0603F", "#E8C25A", "#7FA6C2"].forEach((col, i) =>
+    c.box(10 + i * 42, 6, 22, 22, col, { ...rot(45), ...r(0, 0, 4, 0) }),
+  );
+  // chalkboard
+  c.box(96, 40, 168, 104, "#2F5D57", { ...r(4), borderWidth: 6, borderColor: "#9C714F" });
+  for (const [x, y, w] of [[118, 62, 60], [118, 80, 90], [118, 98, 40], [168, 98, 50], [118, 116, 70]] as const) c.box(x, y, w, 5, "#F4EBD3", r(2));
+  // drawings
+  for (const [x, y, col] of [[14, 50, "#F6D776"], [14, 108, "#CFE6F0"], [290, 50, "#F2C3CF"], [290, 108, "#DCEBC4"]] as const) {
+    c.box(x, y, 46, 46, "#FFFFFF", { ...r(2), borderWidth: 2, borderColor: "#E2D2BE" });
+    c.box(x + 10, y + 10, 26, 26, col, r(13));
+  }
+}
+
+/** The teacher's table: books, a pencil pot and an apple. */
+function drawTable(c: Canvas, opts: { sparkle: boolean }) {
+  c.box(-4, 214, CAFE_WIDTH + 8, 10, "#C99A74", r(4));
+  c.box(0, 224, CAFE_WIDTH, 66, "#E7CFA9");
+  c.box(0, 280, CAFE_WIDTH, 10, "#D4B78C");
+  ["#D98C7A", "#3D8279", "#E8C25A"].forEach((col, i) => c.box(30 + i * 4, 202 - i * 10, 70, 10, col, r(2)));
+  c.box(250, 182, 26, 32, "#7FA6C2", r(3));
+  for (const [x, col] of [[254, "#E0603F"], [262, "#E8C25A"], [268, "#3D8279"]] as const) c.box(x, 168, 4, 18, col, r(2));
+  c.box(190, 194, 20, 20, "#D9534F", r(10));
+  c.box(199, 188, 3, 8, "#6F4A36");
+  if (opts.sparkle) sparkles(c);
+}
+
+/** The station hall: the departure board, a big clock and an arched window. */
+function drawStation(c: Canvas) {
+  c.box(0, 0, CAFE_WIDTH, CAFE_HEIGHT, "#E9E4DA");
+  c.box(110, 0, 130, 150, "#CFE6F0", { ...r(65, 65, 0, 0), borderWidth: 6, borderColor: "#7E6A5A" });
+  c.box(172, 0, 6, 150, "#7E6A5A");
+  c.box(110, 70, 130, 5, "#7E6A5A");
+  // departure board
+  c.box(10, 30, 92, 104, "#24313A", r(4));
+  for (let i = 0; i < 6; i++) {
+    c.box(18, 40 + i * 15, 34, 6, "#F2C14E", r(1));
+    c.box(58, 40 + i * 15, 18, 6, "#FFFFFF", r(1));
+    c.box(82, 40 + i * 15, 12, 6, "#F2C14E", r(1));
+  }
+  // station clock
+  c.box(268, 26, 60, 60, "#FFFFFF", { ...r(30), borderWidth: 5, borderColor: "#293B3A" });
+  c.box(296, 36, 4, 22, "#293B3A", r(2));
+  c.box(298, 54, 20, 4, "#293B3A", r(2));
+  c.box(296, 86, 4, 30, "#293B3A");
+}
+
+/** Gold sparkles when an answer is right. */
+function sparkles(c: Canvas) {
+  c.box(84, 160, 8, 8, "#EACB78", r(4));
+  c.box(150, 150, 6, 6, "#EACB78", r(3));
+  c.box(152, 176, 5, 5, "#EACB78", r(3));
+}
+
+/** The backdrop behind the person, for every setting. */
+function drawRoom(c: Canvas, setting: Setting) {
+  if (setting === "supermarkt") drawSupermarkt(c);
+  else if (setting === "markt") drawMarkt(c);
+  else if (setting === "kleding") drawKleding(c);
+  else if (setting === "huisarts") drawHuisarts(c);
+  else if (setting === "ziekenhuis") drawZiekenhuis(c);
+  else if (setting === "school") drawSchool(c);
+  else if (setting === "station") drawStation(c);
+  else drawCafe(c);
+}
+
+/** The counter, stall, desk or table in front of the person. */
+function drawFront(c: Canvas, setting: Setting, happy: boolean) {
+  const o = { bag: happy, sparkle: happy };
+  if (setting === "supermarkt") drawCheckout(c, o);
+  else if (setting === "markt") drawStall(c, o);
+  else if (setting === "kleding") drawShopCounter(c, o);
+  else if (setting === "huisarts") drawDesk(c, { top: "#B9A58C", front: "#E9DCCB", sparkle: happy });
+  else if (setting === "ziekenhuis")
+    drawDesk(c, {
+      top: "#7FA6C2",
+      front: "#FFFFFF",
+      stripe: "#4F6FA8",
+      sparkle: happy,
+      extra: (d) => {
+        d.box(8, 176, 24, 38, "#C46E4E", r(3, 3, 8, 8));
+        d.box(2, 146, 36, 36, "#7DAE48", r(18));
+      },
+    });
+  else if (setting === "school") drawTable(c, o);
+  else if (setting === "station")
+    drawDesk(c, {
+      top: "#7E6A5A",
+      front: "#2F5D57",
+      stripe: "#EACB78",
+      sparkle: happy,
+      extra: (d) => {
+        // the ticket, once it is sold
+        if (happy) {
+          d.box(60, 192, 46, 22, "#FFFDF8", { ...r(3), borderWidth: 2, borderColor: "#EACB78" });
+          d.box(68, 200, 30, 4, "#2F5D57", r(2));
+        }
+      },
+    });
+  else drawCounter(c, { cup: happy, sparkle: happy });
+}
+
 function drawCounter(c: Canvas, opts: { cup: boolean; sparkle: boolean }) {
   c.box(-4, 214, CAFE_WIDTH + 8, 10, "#C99A74", r(4));
   c.box(0, 224, CAFE_WIDTH, 66, "#FBF4EA");
@@ -261,7 +577,8 @@ function drawCounter(c: Canvas, opts: { cup: boolean; sparkle: boolean }) {
 /**
  * The place the conversation happens, seen from the learner's side, with the other person
  * behind the counter. `setting` "cafe" is the v7 Figma café (arched canal window, Delft tiles,
- * pastry case, tulips); "supermarkt" is a checkout with shelves, a fridge and fruit crates.
+ * pastry case, tulips); "supermarkt" is a checkout with shelves, a fridge and fruit crates; the
+ * other places each have their own room and counter, stall, desk or table.
  * `width` scales the whole picture.
  */
 export const CafeScene = memo(function CafeScene({
@@ -288,13 +605,11 @@ export const CafeScene = memo(function CafeScene({
   const scale = width / CAFE_WIDTH;
   const happy = mood === "happy";
   const room = new Canvas();
-  if (setting === "supermarkt") drawSupermarkt(room);
-  else drawCafe(room);
+  drawRoom(room, setting);
   const someone = new Canvas();
   drawPerson(someone, person, mood, gesture);
   const counter = new Canvas();
-  if (setting === "supermarkt") drawCheckout(counter, { bag: happy, sparkle: happy });
-  else drawCounter(counter, { cup: happy, sparkle: happy });
+  drawFront(counter, setting, happy);
   const top = cropTop !== undefined ? -cropTop : height - CAFE_HEIGHT * scale;
   return (
     <View style={{ width, height, overflow: "hidden", backgroundColor: "#F4E6D6" }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none">

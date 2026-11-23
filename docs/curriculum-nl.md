@@ -43,8 +43,8 @@ choices, and a speaking exercise after each right answer.
 | Place | Scenes | Practises |
 | --- | --- | --- |
 | Bij de koffiebar | Klant ✓, Barista ✓ | ordering, *met melk of zwart*, paying |
-| Supermarkt | Klant, Kassa *(this release)* | greeting, a bag, the total, paying, the receipt |
-| Op de markt | Klant, Kaasboer | weight and amounts (*een ons, een kilo*), tasting, *nog iets?* |
+| Supermarkt | Klant ✓, Kassa ✓ | greeting, a bag, the total, paying, the receipt |
+| Op de markt | Klant ✓, Kaasboer ✓ | weight and amounts (*een ons, een kilo*), tasting, *nog iets?* |
 
 **Exam link**: the start of *Spreken* and *Luisteren* (short exchanges in shops).
 
@@ -67,9 +67,9 @@ choices, and a speaking exercise after each right answer.
 
 | Place | Scenes | Practises |
 | --- | --- | --- |
-| Kledingwinkel | Klant, Verkoper | sizes and colours, the fitting room, exchanging something |
-| Huisarts | Patiënt, Assistent | making an appointment by phone, saying what hurts |
-| Station | Reiziger, Loket | a ticket, platform and times, a delay |
+| Kledingwinkel | Klant ✓, Verkoper ✓ | sizes and colours, the fitting room, exchanging something |
+| Huisarts | Patiënt ✓, Huisarts ✓ | saying what hurts and since when, coming back next week |
+| Station | Reiziger ✓, Loket ✓ | a ticket, platform and times, a delay |
 | *Bibliotheek* (new) | Bezoeker, Medewerker | a library card, borrowing, the opening hours |
 | *Apotheek* (new) | Klant, Apotheker | picking up medicine, how often to take it |
 
@@ -95,8 +95,8 @@ KNM themes *gezondheid en zorg*, *instanties*.
 
 | Place | Scenes | Practises |
 | --- | --- | --- |
-| School | Ouder, Leraar | a talk about your child, the school's rules, an absence |
-| Ziekenhuis | Patiënt, Baliemedewerker | registering, finding the department, after-care |
+| School | Ouder ✓, Leraar ✓ | a talk about your child, the school's rules, an absence |
+| Ziekenhuis | Patiënt ✓, Verpleegkundige ✓ | registering, finding the department, after-care |
 | *Gemeente* (new) | Inwoner, Medewerker | registering an address, a letter, an appointment at the desk |
 | *Woning* (new) | Huurder, Verhuurder | a repair, the rent, rules in the building |
 | *Werk* (new) | Sollicitant, Werkgever | a job interview, your experience, working hours |
