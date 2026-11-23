@@ -45,7 +45,7 @@ export function SpeakCard({
   };
 
   return (
-    <View style={[s.card, SHADOW]}>
+    <View style={[s.card, { backgroundColor: t.colors.card }, SHADOW]}>
       <View style={[s.chip, { backgroundColor: chip.bg }]}>
         {chip.icon && <Icon name={chip.icon} size={14} color={chip.fg} strokeWidth={2.8} />}
         <Text style={[s.chipText, { color: chip.fg, fontFamily: t.fonts.bodyBold }]}>{chip.label}</Text>

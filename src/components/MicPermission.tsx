@@ -16,7 +16,7 @@ export function MicPermission({ onAllow, onDecline }: { onAllow: () => void; onD
         <View style={[s.mic, { backgroundColor: t.colors.primary }]}>
           <Icon name="mic" size={36} color="#fff" />
         </View>
-        <View style={s.bubble}>
+        <View style={[s.bubble, { backgroundColor: t.colors.card }, { backgroundColor: t.colors.card }]}>
           {[0, 1, 2].map((i) => (
             <View key={i} style={[s.dot, { backgroundColor: t.colors.inkMuted }]} />
           ))}

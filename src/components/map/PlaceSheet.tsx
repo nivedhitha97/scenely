@@ -40,16 +40,16 @@ export function PlaceSheet({
   const roleNames = placeScenes.length ? placeScenes.map((s) => s.role.title) : place.roles;
 
   return (
-    <View style={[s.sheet, { paddingBottom: bottom + 16 }]}>
+    <View style={[s.sheet, { backgroundColor: t.colors.paper }, { paddingBottom: bottom + 16 }]}>
       <View style={s.grabber} />
       <View style={s.head}>
-        <View style={[s.iconTile, { backgroundColor: status === "done" || status === "open" ? C.peach : C.stone }]}>
-          <Icon name={place.icon} size={26} color={status === "done" || status === "open" ? C.coralD : C.grey} />
+        <View style={[s.iconTile, { backgroundColor: status === "done" || status === "open" ? t.colors.primarySoft : t.colors.chip }]}>
+          <Icon name={place.icon} size={26} color={status === "done" || status === "open" ? t.colors.primaryDark : t.colors.inkMuted} />
         </View>
         <View style={s.headText}>
           {kicker && <Text style={[s.kicker, { fontFamily: t.fonts.bodyBold }]}>{kicker}</Text>}
-          <Text style={[s.title, { fontFamily: t.fonts.display }]}>{place.title}</Text>
-          <Text style={[s.blurb, { fontFamily: t.fonts.bodyMedium }]}>{place.blurb}</Text>
+          <Text style={[s.title, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>{place.title}</Text>
+          <Text style={[s.blurb, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyMedium }]}>{place.blurb}</Text>
         </View>
       </View>
 
@@ -68,7 +68,7 @@ export function PlaceSheet({
               accessibilityRole="button"
               accessibilityLabel={`${name}${done ? ", klaar" : locked ? ", op slot" : ""}`}
               accessibilityState={{ disabled: locked }}
-              style={[s.role, next ? s.roleNext : null]}
+              style={[s.role, { backgroundColor: t.colors.card, borderColor: t.colors.line }, next ? s.roleNext : null]}
             >
               <View style={s.roleRow}>
                 {done && (
@@ -77,13 +77,13 @@ export function PlaceSheet({
                   </View>
                 )}
                 {locked && (
-                  <View style={[s.dot, { backgroundColor: C.stone }]}>
-                    <Icon name="lock" size={11} color={C.grey} strokeWidth={2.8} />
+                  <View style={[s.dot, { backgroundColor: t.colors.chip }]}>
+                    <Icon name="lock" size={11} color={t.colors.inkMuted} strokeWidth={2.8} />
                   </View>
                 )}
-                <Text style={[s.roleName, { fontFamily: t.fonts.bodyBold }]}>{name}</Text>
+                <Text style={[s.roleName, { color: t.colors.ink }, { fontFamily: t.fonts.bodyBold }]}>{name}</Text>
               </View>
-              <Text style={[s.roleSub, { fontFamily: t.fonts.bodyMedium }]}>
+              <Text style={[s.roleSub, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyMedium }]}>
                 {done ? placeScenes[i].badge.message : next ? "Volgende" : status === "soon" ? "Binnenkort" : "Op slot"}
               </Text>
             </Pressable>
@@ -102,9 +102,9 @@ export function PlaceSheet({
           </Text>
         </Pressable>
       ) : (
-        <View style={s.note}>
-          <Icon name="lock" size={18} color={C.grey} strokeWidth={2.4} />
-          <Text style={[s.noteText, { fontFamily: t.fonts.bodyBold }]}>
+        <View style={[s.note, { backgroundColor: t.colors.chip }, { backgroundColor: t.colors.chip }]}>
+          <Icon name="lock" size={18} color={t.colors.inkMuted} strokeWidth={2.4} />
+          <Text style={[s.noteText, { color: t.colors.ink }, { fontFamily: t.fonts.bodyBold }]}>
             {status === "soon" ? "Deze plek komt binnenkort." : "Voltooi eerst de vorige plek."}
           </Text>
         </View>
