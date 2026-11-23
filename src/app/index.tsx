@@ -21,6 +21,7 @@ import { sceneStatus } from "@/engine/progress";
 import { useAuth } from "@/hooks/useAuth";
 import { useGame } from "@/hooks/useGame";
 import { useScenery } from "@/hooks/useScenery";
+import { useSettings } from "@/hooks/useSettings";
 import { scenesNl } from "@/scenes";
 import { placesNl } from "@/scenes/nl/places";
 import { useTheme } from "@/themes";
@@ -33,6 +34,7 @@ export default function MapScreen() {
   const t = useTheme();
   const game = useGame();
   const auth = useAuth();
+  const { ready: settingsReady, settings } = useSettings();
   const { scenery, sky, clock } = useScenery();
   const darkSky = scenery.phase === "night" || scenery.phase === "dusk";
   const insets = useSafeAreaInsets();
@@ -90,9 +92,10 @@ export default function MapScreen() {
     else centreOn((walk.from.door.x + walk.to.door.x) / 2, (walk.from.door.y + walk.to.door.y) / 2, true);
   }, [laidOut, focused, walk, reduceMotion, centreOn]);
 
-  if (!game.ready || !auth.ready) return <View style={[s.screen, { backgroundColor: t.colors.paper }]} />;
+  if (!game.ready || !auth.ready || !settingsReady) return <View style={[s.screen, { backgroundColor: t.colors.paper }]} />;
   if (!auth.welcomed) return <Redirect href="/welcome" />;
   if (!game.avatar) return <Redirect href="/avatar" />;
+  if (!settings.introSeen) return <Redirect href="/intro" />;
 
   const look = lookFor(game.avatar);
   const selected = places.find((p) => p.id === selectedId) ?? here;

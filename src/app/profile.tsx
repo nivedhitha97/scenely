@@ -43,6 +43,7 @@ export default function ProfileScreen() {
   const rows: { icon: string; label: string; onPress: () => void }[] = [
     { icon: "user", label: "Avatar aanpassen", onPress: () => router.push("/avatar") },
     { icon: "gear", label: "Instellingen", onPress: () => router.push("/settings") },
+    { icon: "play", label: "Bekijk de intro opnieuw", onPress: () => router.push({ pathname: "/intro", params: { replay: "1" } }) },
   ];
 
   return (

@@ -19,6 +19,8 @@ export type Settings = {
   speaking: boolean;
   /** The map's sky and season: "auto" follows the phone's clock and time zone; a value previews it. */
   mapLook: { phase: DayPhase | "auto"; season: Season | "auto" };
+  /** The intro story has been shown (it plays once, after the avatar is picked). */
+  introSeen: boolean;
 };
 
 const PHASES: readonly DayPhase[] = ["dawn", "morning", "day", "evening", "dusk", "night"];
@@ -29,6 +31,7 @@ export const defaultSettings: Settings = {
   reminder: { enabled: false, hour: 19, minute: 0 },
   speaking: true,
   mapLook: { phase: "auto", season: "auto" },
+  introSeen: false,
 };
 
 const KEY = "scenely/v1/settings";
@@ -51,6 +54,7 @@ export function parseSettings(value: unknown): Settings {
       phase: (PHASES as readonly string[]).includes(String(v.mapLook?.phase)) ? (v.mapLook!.phase as DayPhase) : "auto",
       season: (SEASONS as readonly string[]).includes(String(v.mapLook?.season)) ? (v.mapLook!.season as Season) : "auto",
     },
+    introSeen: typeof v.introSeen === "boolean" ? v.introSeen : defaultSettings.introSeen,
   };
 }
 
