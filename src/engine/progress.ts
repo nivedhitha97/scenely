@@ -58,3 +58,19 @@ export function rating(attempts: Record<string, number>): 1 | 2 | 3 {
   if (extra === 1) return 2;
   return 1;
 }
+
+/**
+ * Combines progress from two places (this phone and the learner's account) without losing any:
+ * every completed scene from either side, keeping the most recent play of each, and every badge
+ * in the order it was first earned.
+ */
+export function mergeProgress(a: Progress, b: Progress): Progress {
+  const completed: Record<string, SceneRecord> = { ...a.completed };
+  for (const [id, rec] of Object.entries(b.completed)) {
+    const mine = completed[id];
+    if (!mine || rec.completedAt > mine.completedAt) completed[id] = rec;
+  }
+  const badges = [...a.badges];
+  for (const id of b.badges) if (!badges.includes(id)) badges.push(id);
+  return { completed, badges };
+}

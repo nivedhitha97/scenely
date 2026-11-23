@@ -32,16 +32,16 @@ export default function AvatarScreen() {
   };
 
   return (
-    <View style={[s.screen, { paddingTop: insets.top + 6 }]}>
+    <View style={[s.screen, { backgroundColor: t.colors.paper }, { paddingTop: insets.top + 6 }]}>
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 100 }]}>
         <View style={s.titleRow}>
           <View style={{ flex: 1 }}>
-            <Text style={[s.title, { fontFamily: t.fonts.display }]}>Kies je avatar</Text>
-            <Text style={[s.sub, { fontFamily: t.fonts.bodyMedium }]}>Zo loop jij door de stad.</Text>
+            <Text style={[s.title, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>Kies je avatar</Text>
+            <Text style={[s.sub, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyMedium }]}>Zo loop jij door de stad.</Text>
           </View>
           {changing && (
-            <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Sluiten" style={s.close}>
-              <Icon name="close" size={20} color={C.ink} />
+            <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Sluiten" style={[s.close, { backgroundColor: t.colors.card }, { backgroundColor: t.colors.card }]}>
+              <Icon name="close" size={20} color={t.colors.ink} />
             </Pressable>
           )}
         </View>
@@ -68,7 +68,7 @@ export default function AvatarScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={`Avatar ${i + 1}`}
                 accessibilityState={{ selected: sel }}
-                style={[s.tile, sel && s.tileSel]}
+                style={[s.tile, { backgroundColor: t.colors.card, borderColor: t.colors.line }, sel && [s.tileSel, { backgroundColor: t.colors.primarySoft }]]}
               >
                 <View style={s.tileFigure}>
                   <Figure look={sel ? { ...l, top: outfit } : l} />
@@ -83,7 +83,7 @@ export default function AvatarScreen() {
           })}
         </View>
 
-        <Text style={[s.label, { fontFamily: t.fonts.bodyBold }]}>Kleur kleding</Text>
+        <Text style={[s.label, { color: t.colors.ink }, { fontFamily: t.fonts.bodyBold }]}>Kleur kleding</Text>
         <View style={s.swatches}>
           {OUTFIT_COLOURS.map((c) => (
             <Pressable
@@ -98,7 +98,7 @@ export default function AvatarScreen() {
         </View>
       </ScrollView>
 
-      <View style={[s.footer, { paddingBottom: insets.bottom + 16 }]}>
+      <View style={[s.footer, { backgroundColor: t.colors.paper }, { paddingBottom: insets.bottom + 16 }]}>
         <Pressable onPress={confirm} accessibilityRole="button" style={({ pressed }) => [s.cta, { opacity: pressed ? 0.85 : 1 }]}>
           <Text style={[s.ctaText, { fontFamily: t.fonts.bodyBold }]}>Dit ben ik</Text>
         </Pressable>

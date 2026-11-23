@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { Scene } from "@/engine/types";
 import { useScene } from "@/hooks/useScene";
+import { useSettings } from "@/hooks/useSettings";
 import { useSpeaking } from "@/hooks/useSpeaking";
 import { askMicPermission, canListen, micPermission } from "@/services/listening";
 import { useTheme } from "@/themes";
@@ -60,7 +61,9 @@ export function ScenePlayer({
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { state, turn, line, choiceTurn, voiceStatus, tulips, say, sayAnswer, sayText, choose, next } = useScene(scene);
-  const [canSpeak] = useState(canListen);
+  const [speechAvailable] = useState(canListen);
+  const { settings } = useSettings();
+  const canSpeak = speechAvailable && settings.speaking;
   const [speakMode, setSpeakMode] = useState<SpeakMode>("off");
   const [micNote, setMicNote] = useState<string | null>(null);
   // Player turns whose sentence was said out loud and understood.
@@ -154,7 +157,7 @@ export function ScenePlayer({
         </View>
 
         {line && (
-          <View style={[s.dialog, SHADOW]}>
+          <View style={[s.dialog, { backgroundColor: t.colors.card }, SHADOW]}>
             <Text style={[s.speaker, { color: t.colors.inkMuted, fontFamily: t.fonts.bodyBold }]}>{line.speaker.toUpperCase()}</Text>
             <Animated.Text key={line.turnId} entering={FadeIn.duration(250)} style={[s.say, { color: t.colors.ink, fontFamily: t.fonts.display }]}>
               {line.text}
@@ -255,7 +258,7 @@ function TopBar({ scene, dots, onClose }: { scene: Scene; dots: { done: number; 
   const t = useTheme();
   return (
     <View style={s.top}>
-      <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Stoppen" style={s.iconBtn}>
+      <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Stoppen" style={[s.iconBtn, { backgroundColor: t.colors.card }, { backgroundColor: t.colors.card }]}>
         <Icon name="back" size={22} color={t.colors.ink} />
       </Pressable>
       <View style={s.topMid}>

@@ -56,12 +56,13 @@ export function AnswerCard({
         accessibilityState={{ disabled, selected: correct }}
         style={({ pressed }) => [
           s.card,
+          { backgroundColor: t.colors.card, borderColor: t.colors.line },
           correct && { backgroundColor: t.colors.correctSoft, borderColor: t.colors.correct, borderWidth: 2 },
           wrong && { backgroundColor: t.colors.primarySoft, borderColor: t.colors.primary, borderWidth: 2 },
           pressed && !disabled && { opacity: 0.85 },
         ]}
       >
-        <View style={[s.tile, { backgroundColor: correct || wrong ? "#fff" : tileBg }]}>
+        <View style={[s.tile, { backgroundColor: correct || wrong ? t.colors.card : tileBg }]}>
           <Icon name={icon} size={26} color={correct ? t.colors.correct : wrong ? t.colors.primaryDark : iconColour} strokeWidth={2} />
         </View>
         <Text style={[s.label, { color: t.colors.ink, fontFamily: t.fonts.bodyBold }]}>{label}</Text>

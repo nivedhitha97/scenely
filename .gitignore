@@ -41,3 +41,7 @@ example
 # generated native folders
 /ios
 /android
+
+# Firebase app config files (download from the Firebase console; see README "Accounts")
+/firebase/GoogleService-Info.plist
+/firebase/google-services.json

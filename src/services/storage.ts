@@ -8,13 +8,13 @@ export type AvatarChoice = { look: number; outfit: string };
 const AVATAR_KEY = "scenely/v1/avatar";
 const progressKey = (language: string) => `scenely/v1/progress/${language}`;
 
-function isProgress(value: unknown): value is Progress {
+export function isProgress(value: unknown): value is Progress {
   if (!value || typeof value !== "object") return false;
   const v = value as Partial<Progress>;
   return !!v.completed && typeof v.completed === "object" && Array.isArray(v.badges);
 }
 
-function isAvatar(value: unknown): value is AvatarChoice {
+export function isAvatar(value: unknown): value is AvatarChoice {
   if (!value || typeof value !== "object") return false;
   const v = value as Partial<AvatarChoice>;
   return typeof v.look === "number" && typeof v.outfit === "string";

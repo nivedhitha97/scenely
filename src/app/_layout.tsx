@@ -5,13 +5,17 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
+import { StatusBar } from "expo-status-bar";
+
+import { CloudSync } from "@/components/CloudSync";
+import { AuthProvider } from "@/hooks/useAuth";
 import { GameProvider } from "@/hooks/useGame";
+import { SettingsProvider } from "@/hooks/useSettings";
 import { useTheme } from "@/themes";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const theme = useTheme();
   const [loaded, error] = useFonts({
     Nunito_600SemiBold,
     Nunito_700Bold,
@@ -30,13 +34,24 @@ export default function RootLayout() {
 
   // Dutch is the only language so far; its progress is saved under "nl-NL".
   return (
-    <GameProvider language="nl-NL">
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: theme.colors.paper },
-        }}
-      />
-    </GameProvider>
+    <SettingsProvider language="nl-NL">
+      <AuthProvider>
+        <GameProvider language="nl-NL">
+          <CloudSync />
+          <AppStack />
+        </GameProvider>
+      </AuthProvider>
+    </SettingsProvider>
+  );
+}
+
+/** The screens, on the theme's background, with a status bar that suits light or dark. */
+function AppStack() {
+  const theme = useTheme();
+  return (
+    <>
+      <StatusBar style={theme.scheme === "dark" ? "light" : "dark"} />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.paper } }} />
+    </>
   );
 }

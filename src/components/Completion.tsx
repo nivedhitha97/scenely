@@ -72,7 +72,7 @@ export function Completion({
 
         <View style={s.stats}>
           {stats.map((st) => (
-            <View key={st.icon} style={[s.card, s.stat]} accessible accessibilityLabel={`${st.n} ${st.label}`}>
+            <View key={st.icon} style={[s.card, { backgroundColor: t.colors.card }, s.stat]} accessible accessibilityLabel={`${st.n} ${st.label}`}>
               <Icon name={st.icon} size={18} color={t.colors.inkMuted} />
               <Text style={[s.statN, { color: t.colors.ink, fontFamily: "Nunito_900Black" }]}>{st.n}</Text>
               <Text style={[s.meta, { color: t.colors.inkMuted, fontFamily: t.fonts.body }]}>{st.label}</Text>
@@ -87,7 +87,7 @@ export function Completion({
             </Text>
             <View style={s.phrases}>
               {summary.phrases.map((p) => (
-                <View key={p.turnId} style={[s.card, s.phrase]}>
+                <View key={p.turnId} style={[s.card, { backgroundColor: t.colors.card }, s.phrase]}>
                   <View
                     style={[s.mark, { backgroundColor: t.colors.correctSoft }]}
                     accessibilityLabel={p.spoken ? "Hardop gezegd" : "Gekozen"}

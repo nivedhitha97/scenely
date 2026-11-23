@@ -1,0 +1,14 @@
+rules_version = '2';
+
+// Scenely: each learner can read and write only their own profile document, users/{uid}.
+// Paste into Firebase console > Firestore Database > Rules, or deploy with the Firebase CLI.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

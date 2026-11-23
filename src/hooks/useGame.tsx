@@ -15,6 +15,8 @@ type Game = {
   /** Place ids of a walk the map should play next (set after finishing a place). Not saved. */
   pendingWalk: { from: string; to: string } | null;
   setPendingWalk: (walk: { from: string; to: string } | null) => void;
+  /** Replaces all progress for this language (account sync, "Voortgang wissen") and saves it. */
+  replaceProgress: (next: Progress) => void;
 };
 
 const GameContext = createContext<Game | null>(null);
@@ -46,6 +48,15 @@ export function GameProvider({ language, children }: { language: string; childre
     saveAvatar(next).catch(() => {});
   }, []);
 
+  const replaceProgress = useCallback(
+    (next: Progress) => {
+      progressRef.current = next;
+      setProgress(next);
+      saveProgress(language, next).catch(() => {});
+    },
+    [language],
+  );
+
   const recordCompletion = useCallback(
     (sceneId: string, attempts: Record<string, number>) => {
       const before = progressRef.current;
@@ -59,8 +70,8 @@ export function GameProvider({ language, children }: { language: string; childre
   );
 
   const value = useMemo(
-    () => ({ ready, language, progress, avatar, setAvatar, recordCompletion, pendingWalk, setPendingWalk }),
-    [ready, language, progress, avatar, setAvatar, recordCompletion, pendingWalk],
+    () => ({ ready, language, progress, avatar, setAvatar, recordCompletion, pendingWalk, setPendingWalk, replaceProgress }),
+    [ready, language, progress, avatar, setAvatar, recordCompletion, pendingWalk, replaceProgress],
   );
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

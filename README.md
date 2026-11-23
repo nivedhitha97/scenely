@@ -21,6 +21,14 @@ Taken on the iPhone 17 Pro simulator (Expo Go). The speaking exercise needs a de
 - **Right answer:** the voice says your sentence so you can say it along; tap to hear it again, slowly.
 - **Goed gedaan!:** your badge, what you heard and said, and every sentence to replay.
 
+| Welcome | Your profile | Settings | Dark mode |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/welcome.png" width="180" alt="Welcome screen: the avatar cycling past canal houses, Doorgaan met Google and Zonder account beginnen"> | <img src="docs/screenshots/profile.png" width="180" alt="Jouw profiel: avatar, places, scenes and badges, and a prompt to sign in to keep progress"> | <img src="docs/screenshots/settings.png" width="180" alt="Instellingen: theme, daily reminder at 19:00, speaking exercises, account and progress"> | <img src="docs/screenshots/map-dark.png" width="180" alt="The map in dark mode with a dark place sheet"> |
+
+- **Welcome:** sign in with Google, or start without an account (progress then stays on the phone).
+- **Profile:** your avatar, how far you are, and a way to sign in later so your town moves with you.
+- **Settings:** light, dark or automatic; a daily reminder at a time you pick; speaking on or off; sign out, delete your account, or clear your progress.
+
 ## Status
 
 | Milestone | State |
@@ -34,7 +42,8 @@ Taken on the iPhone 17 Pro simulator (Expo Go). The speaking exercise needs a de
 | Feedback (Lottie, sounds) | ⏳ Next |
 | Scene completion screen ("Goed gedaan!": badge, counts, practised sentences) | ✅ Done |
 | Supermarkt scenes (Klant, Kassa) at A1 and the curriculum map (`docs/curriculum-nl.md`) | ✅ Done |
-| Progress screens (badges, options) | Planned |
+| Accounts (Google via Firebase), profile, settings, light/dark theme, daily reminder, app icon and launch screen | ✅ Done |
+| Progress screens (badges, tab bar) | Planned |
 | Polish (accessibility, reduce motion) | Planned |
 
 Designs are in Figma (page "✅ v7 · Screens + speaking + UI flow"). The app follows the Visual design blueprint: one palette and the Nunito font for every language.
@@ -109,6 +118,15 @@ src/
     ├── types.ts         # colour and font tokens every language theme provides
     └── nl.ts            # Nederland theme
 ```
+
+## Accounts, settings and reminders
+
+- **Accounts** use Firebase (project `scenely-eff51`) with Google sign-in. Signing in is optional: without an account everything is saved on the phone only. When you sign in, the phone and the account are merged (no progress is lost on either side; the account's avatar and settings win), and every change is saved to Firestore a moment later.
+- **Setting up a copy:** copy `.env.example` to `.env.local` and fill in the Firebase web config and the Google client IDs. Put `GoogleService-Info.plist` and `google-services.json` from the Firebase console in `firebase/`. These files stay out of git. Paste `firestore.rules` into Firestore's Rules so each learner can only read and write their own `users/{uid}` document.
+- **Google sign-in needs a development build** (`npx expo run:ios`, which needs Xcode 26.4+). In Expo Go the button explains that sign-in isn't available yet; on the web it uses Firebase's Google pop-up. Before an App Store release, Sign in with Apple must be added too (App Store rule for apps with third-party sign-in).
+- **Theme:** Automatisch follows the phone; Licht and Donker override it. Screens use the theme's colours; the illustrations stay as drawn.
+- **Daily reminder:** a local notification (no server) at 08:00, 12:30, 17:30, 19:00 or 21:00 with a short Dutch nudge. It needs the phone's permission, asked when you switch it on.
+- **App icon and launch screen:** drawn in `scripts/build-icons.py` (a speech bubble with three canal houses on coral) and rendered with macOS's `sips`: `python3 scripts/build-icons.py`. Expo Go shows its own icon and splash; the real ones appear in a development or store build.
 
 ## How the scene screen behaves
 

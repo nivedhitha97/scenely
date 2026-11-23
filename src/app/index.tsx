@@ -16,6 +16,7 @@ import { PlaceSheet } from "@/components/map/PlaceSheet";
 import { legBetween, legPath } from "@/components/map/route";
 import { currentPlace, discoveredCount, placeStatus, type Place } from "@/engine/places";
 import { sceneStatus } from "@/engine/progress";
+import { useAuth } from "@/hooks/useAuth";
 import { useGame } from "@/hooks/useGame";
 import { scenesNl } from "@/scenes";
 import { placesNl } from "@/scenes/nl/places";
@@ -28,6 +29,7 @@ const scenes = scenesNl;
 export default function MapScreen() {
   const t = useTheme();
   const game = useGame();
+  const auth = useAuth();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const reduceMotion = useReducedMotion();
@@ -83,7 +85,8 @@ export default function MapScreen() {
     else centreOn((walk.from.door.x + walk.to.door.x) / 2, (walk.from.door.y + walk.to.door.y) / 2, true);
   }, [laidOut, focused, walk, reduceMotion, centreOn]);
 
-  if (!game.ready) return <View style={[s.screen, { backgroundColor: C.cream }]} />;
+  if (!game.ready || !auth.ready) return <View style={[s.screen, { backgroundColor: t.colors.paper }]} />;
+  if (!auth.welcomed) return <Redirect href="/welcome" />;
   if (!game.avatar) return <Redirect href="/avatar" />;
 
   const look = lookFor(game.avatar);
@@ -104,7 +107,7 @@ export default function MapScreen() {
   const avatarAt = walking && walk ? walk.from : here;
 
   return (
-    <View style={[s.screen, { backgroundColor: C.cream }]}>
+    <View style={[s.screen, { backgroundColor: t.colors.paper }]}>
       <ScrollView
         ref={vScroll}
         bounces={false}
@@ -148,30 +151,30 @@ export default function MapScreen() {
       </ScrollView>
 
       {walking && walk ? (
-        <View style={[s.hud, shadow, { top: insets.top + 8 }]}>
-          <View style={[s.check, { backgroundColor: C.paleGreen }]}>
+        <View style={[s.hud, { backgroundColor: t.colors.card }, shadow, { top: insets.top + 8 }]}>
+          <View style={[s.check, { backgroundColor: t.colors.correctSoft }]}>
             <Icon name="tick" size={16} color={C.teal} strokeWidth={3.4} />
           </View>
           <View style={s.hudText}>
-            <Text style={[s.hudTitle, { fontFamily: t.fonts.display }]}>{walk.from.title} voltooid</Text>
-            <Text style={[s.hudSub, { fontFamily: t.fonts.bodyBold }]}>Op de fiets naar {walk.to.title.toLowerCase()}…</Text>
+            <Text style={[s.hudTitle, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>{walk.from.title} voltooid</Text>
+            <Text style={[s.hudSub, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyBold }]}>Op de fiets naar {walk.to.title.toLowerCase()}…</Text>
           </View>
           <Pressable onPress={() => finishWalk(walk.to)} accessibilityRole="button" hitSlop={10}>
             <Text style={[s.skip, { fontFamily: t.fonts.bodyBold }]}>Overslaan</Text>
           </Pressable>
         </View>
       ) : (
-        <View style={[s.hud, shadow, { top: insets.top + 8 }]}>
+        <View style={[s.hud, { backgroundColor: t.colors.card }, shadow, { top: insets.top + 8 }]}>
           <View style={s.hudText}>
-            <Text style={[s.hudTitle, { fontFamily: t.fonts.display }]}>Hallo!</Text>
-            <Text style={[s.hudSub, { fontFamily: t.fonts.bodyBold }]}>
+            <Text style={[s.hudTitle, { color: t.colors.ink }, { fontFamily: t.fonts.display }]}>Hallo!</Text>
+            <Text style={[s.hudSub, { color: t.colors.inkMuted }, { fontFamily: t.fonts.bodyBold }]}>
               {discoveredCount(places, scenes, game.progress)} van {places.length} plekken ontdekt
             </Text>
           </View>
           <Pressable
-            onPress={() => router.push("/avatar")}
+            onPress={() => router.push("/profile")}
             accessibilityRole="button"
-            accessibilityLabel="Avatar kiezen"
+            accessibilityLabel="Jouw profiel"
             style={s.avatarButton}
           >
             <View style={s.avatarCrop}>
