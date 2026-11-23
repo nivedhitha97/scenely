@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { emptyProgress } from "@/engine/progress";
+import { sceneryAt, type DayPhase, type Season } from "@/engine/scenery";
 import { useAuth } from "@/hooks/useAuth";
 import { useGame } from "@/hooks/useGame";
 import { useSettings } from "@/hooks/useSettings";
@@ -19,6 +20,9 @@ const THEMES: { value: ThemeChoice; label: string; icon: string }[] = [
   { value: "light", label: "Licht", icon: "sun" },
   { value: "dark", label: "Donker", icon: "moon" },
 ];
+
+const PHASE_NAMES: Record<DayPhase, string> = { dawn: "Zonsopgang", morning: "Ochtend", day: "Middag", evening: "Avond", dusk: "Schemering", night: "Nacht" };
+const SEASON_NAMES: Record<Season, string> = { spring: "Lente", summer: "Zomer", autumn: "Herfst", winter: "Winter" };
 
 /** Reminder times to pick from (a list is easier to tap than a clock). */
 export const REMINDER_TIMES: [number, number][] = [
@@ -95,6 +99,26 @@ export default function SettingsScreen() {
               );
             })}
           </View>
+        </Section>
+
+        <Section title="Kaart">
+          <Row
+            icon="sun"
+            label="Tijd en seizoen"
+            sub={`Volgt je telefoon: nu ${PHASE_NAMES[sceneryAt(new Date()).phase].toLowerCase()}, ${SEASON_NAMES[sceneryAt(new Date()).season].toLowerCase()}.`}
+          />
+          <Chips
+            label="Tijd van de dag op de kaart"
+            options={[["auto", "Automatisch"], ...(Object.entries(PHASE_NAMES) as [DayPhase, string][])]}
+            value={settings.mapLook.phase}
+            onChange={(phase) => update({ mapLook: { ...settings.mapLook, phase: phase as DayPhase | "auto" } })}
+          />
+          <Chips
+            label="Seizoen op de kaart"
+            options={[["auto", "Automatisch"], ...(Object.entries(SEASON_NAMES) as [Season, string][])]}
+            value={settings.mapLook.season}
+            onChange={(season) => update({ mapLook: { ...settings.mapLook, season: season as Season | "auto" } })}
+          />
         </Section>
 
         <Section title="Oefenherinnering">
@@ -219,6 +243,27 @@ export default function SettingsScreen() {
     );
   }
 
+  function Chips({ label, options, value, onChange }: { label: string; options: [string, string][]; value: string; onChange: (v: string) => void }) {
+    return (
+      <View style={s.times} accessibilityRole="radiogroup" accessibilityLabel={label}>
+        {options.map(([v, name]) => {
+          const on = value === v;
+          return (
+            <Pressable
+              key={v}
+              onPress={() => onChange(v)}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: on }}
+              style={[s.time, { backgroundColor: on ? t.colors.primary : t.colors.chip }]}
+            >
+              <Text style={[s.chipText, { color: on ? "#fff" : t.colors.ink, fontFamily: t.fonts.bodyBold }]}>{name}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    );
+  }
+
   function Note({ text: note }: { text: string }) {
     return <Text accessibilityRole="alert" style={[s.note, { color: t.colors.primaryDark, backgroundColor: t.colors.primarySoft, fontFamily: t.fonts.bodyBold }]}>{note}</Text>;
   }
@@ -257,6 +302,7 @@ const s = StyleSheet.create({
   times: { flexDirection: "row", flexWrap: "wrap", gap: 8, paddingHorizontal: 16, paddingBottom: 14 },
   time: { minHeight: 44, minWidth: 68, borderRadius: 12, alignItems: "center", justifyContent: "center", paddingHorizontal: 12 },
   timeText: { fontSize: 15 },
+  chipText: { fontSize: 14 },
   note: { fontSize: 13, margin: 12, marginTop: 0, padding: 12, borderRadius: 12, overflow: "hidden" },
   confirm: { borderTopWidth: 1, padding: 16, gap: 12 },
   confirmButtons: { flexDirection: "row", gap: 10 },
