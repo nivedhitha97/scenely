@@ -14,10 +14,9 @@ describe("places", () => {
     expect([...ids].sort()).toEqual(scenes.map((s) => s.id).sort());
   });
 
-  it("starts with the café open, the supermarket locked and places without scenes marked soon", () => {
+  it("starts with the café open and every other place locked", () => {
     expect(placeStatus(cafe, scenes, emptyProgress)).toBe("open");
-    expect(placeStatus(placesNl[1], scenes, emptyProgress)).toBe("locked");
-    expect(placeStatus(placesNl[2], scenes, emptyProgress)).toBe("soon");
+    for (const place of placesNl.slice(1)) expect(placeStatus(place, scenes, emptyProgress)).toBe("locked");
     expect(currentPlace(placesNl, scenes, emptyProgress).id).toBe("koffiebar");
     expect(discoveredCount(placesNl, scenes, emptyProgress)).toBe(1);
   });
@@ -25,6 +24,23 @@ describe("places", () => {
   it("a place is locked while its first scene waits on an earlier place", () => {
     const later: Place = { ...placesNl[1], sceneIds: ["koffiebar-barista"] };
     expect(placeStatus(later, scenes, emptyProgress)).toBe("locked");
+  });
+
+  it("marks a place without scenes as soon", () => {
+    expect(placeStatus({ ...cafe, sceneIds: [] }, scenes, emptyProgress)).toBe("soon");
+  });
+
+  it("every place has one scene per role, in the order the map shows", () => {
+    for (const place of placesNl) {
+      expect(place.sceneIds).toHaveLength(place.roles.length);
+      place.sceneIds.forEach((id, i) => expect(scenes.find((s) => s.id === id)?.role.title).toBe(place.roles[i]));
+    }
+  });
+
+  it("finishing every scene finishes the whole map", () => {
+    const all = done(scenes.map((s) => s.id));
+    for (const place of placesNl) expect(placeStatus(place, scenes, all)).toBe("done");
+    expect(discoveredCount(placesNl, scenes, all)).toBe(placesNl.length);
   });
 
   it("opens the supermarket once both café roles are done", () => {

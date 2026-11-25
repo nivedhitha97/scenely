@@ -11,7 +11,7 @@ import { askMicPermission, canListen, micPermission } from "@/services/listening
 import { useTheme } from "@/themes";
 import { AnswerCard, type AnswerState } from "./AnswerCard";
 import { Button } from "./Button";
-import { CAFE_HEIGHT, CAFE_WIDTH, CafeScene, type Mood, type Person, type Setting } from "./CafeScene";
+import { CAFE_HEIGHT, CAFE_WIDTH, CafeScene, PEOPLE, SETTINGS, type Mood, type Person, type Setting } from "./CafeScene";
 import { Icon } from "./Icon";
 import { MicPermission } from "./MicPermission";
 import { SpeakActions, SpeakCard } from "./SpeakPanel";
@@ -27,8 +27,6 @@ type SpeakMode = "off" | "permission" | "speak";
  * or go on without speaking. Speaking is only offered where speech recognition works
  * (a development build or a browser, not Expo Go).
  */
-const PEOPLE: readonly Person[] = ["barista", "klant", "kassa", "shopper"];
-
 /** The other person in the picture: the scene's `character`, or a customer if it is unknown. */
 function personFor(scene: Scene): Person {
   return (PEOPLE as readonly string[]).includes(scene.character) ? (scene.character as Person) : "klant";
@@ -36,7 +34,7 @@ function personFor(scene: Scene): Person {
 
 /** Where the picture is set: the scene's `background`, or the café. */
 function settingFor(scene: Scene): Setting {
-  return scene.background === "supermarkt" ? "supermarkt" : "cafe";
+  return (SETTINGS as readonly string[]).includes(scene.background) ? (scene.background as Setting) : "cafe";
 }
 
 /** What the scene reports when the learner taps "Klaar". */
