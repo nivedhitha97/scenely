@@ -18,7 +18,7 @@ export const schoolLeraar: Scene = {
       kind: "npc",
       id: "t1",
       speaker: "Ouder",
-      text: "Goedemorgen. Ik ben de vader van Daan.",
+      text: "Goedemorgen. Ik kom praten over Daan.",
       animation: "klant-talk",
       next: "t2",
     },

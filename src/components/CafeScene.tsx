@@ -359,8 +359,8 @@ function drawKleding(c: Canvas) {
       c.box(226 + i * 28, y + 11, 26, 11, col, { ...r(3), opacity: 0.85 });
     });
   // a plant
-  c.box(252, 150, 26, 30, "#C46E4E", r(3, 3, 8, 8));
-  c.box(248, 118, 34, 36, "#7DAE48", r(17));
+  c.box(252, 168, 26, 30, "#C46E4E", r(3, 3, 8, 8));
+  c.box(248, 138, 34, 34, "#7DAE48", r(17));
 }
 
 /** The shop counter: folded clothes, a card reader and a paper bag when it is sold. */
