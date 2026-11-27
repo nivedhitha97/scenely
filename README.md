@@ -15,7 +15,7 @@ Taken on the iPhone 17 Pro simulator (Expo Go). The speaking exercise needs a de
 | <img src="docs/screenshots/scene.png" width="220" alt="The supermarket checkout scene: a customer says Goedemorgen and three answers are offered"> | <img src="docs/screenshots/feedback.png" width="220" alt="The right answer in teal with Goed zo! Zeg het mee. and buttons to hear it again"> | <img src="docs/screenshots/completion.png" width="220" alt="The completion screen with the Kassa badge, counts and the practised sentences"> |
 
 - **Avatar:** six looks and six outfit colours; your avatar rides the map in these colours.
-- **Map:** a hand-drawn Amsterdam with eight places. Places open in order; finished ones get a check.
+- **Map:** a hand-drawn Amsterdam with eight places, each with two roles (16 scenes). Places open in order; finished ones get a check.
 - **Ride:** when you finish a place, you cycle along the bike route to the next one.
 - **Scene:** Dutch only. Listen, read the line, and pick what you would say. No translations.
 - **Right answer:** the voice says your sentence so you can say it along; tap to hear it again, slowly.
@@ -43,6 +43,10 @@ Taken on the iPhone 17 Pro simulator (Expo Go). The speaking exercise needs a de
 | Scene completion screen ("Goed gedaan!": badge, counts, practised sentences) | ✅ Done |
 | Supermarkt scenes (Klant, Kassa) at A1 and the curriculum map (`docs/curriculum-nl.md`) | ✅ Done |
 | Accounts (Google via Firebase), profile, settings, light/dark theme, daily reminder, app icon and launch screen | ✅ Done |
+| Map follows the time of day and the season | ✅ Done |
+| Intro story: from the landing to the koffiebar | ✅ Done |
+| All eight places playable: markt, kledingwinkel, huisarts, ziekenhuis, school and station (two roles each) | ✅ Done |
+| Native-speaker review of the Dutch dialogue | ⏳ Open |
 | Progress screens (badges, tab bar) | Planned |
 | Polish (accessibility, reduce motion) | Planned |
 
@@ -65,7 +69,7 @@ Scan the QR code with your phone's camera (iOS) or with Expo Go (Android).
 npx expo run:ios      # or: npx expo run:android
 ```
 
-On first launch you pick an avatar, then land on the map at the café. Tap **Speel als klant** to play. Progress is saved on the device, so **Barista** opens after Klant. Finishing both café roles makes your avatar cycle to the next place. In development, long-press a locked role to open it anyway.
+On first launch you pick an avatar and watch the short intro story, then land on the map at the café. Tap **Speel als klant** to play. Progress is saved on the device, so **Barista** opens after Klant. Finishing both café roles makes your avatar cycle to the next place. In development, long-press a locked role to open it anyway.
 
 **Dutch voice:** the app speaks with a Netherlands Dutch (`nl-NL`) voice. If no Dutch voice is installed, install one in your phone's settings:
 - iOS: Settings → Accessibility → Spoken Content → Voices → Dutch → choose a Netherlands voice (Enhanced or Premium sounds best).
@@ -85,11 +89,16 @@ npx expo lint       # ESLint
 src/
 ├── app/                 # expo-router screens (every file is a route)
 │   ├── index.tsx        # map ("Kaart"): places, avatar, ride to the next place
+│   ├── welcome.tsx      # sign in with Google or start without an account
 │   ├── avatar.tsx       # "Kies je avatar"
+│   ├── intro.tsx        # the intro story (once, or replayed from Profiel)
+│   ├── profile.tsx      # "Jouw profiel"
+│   ├── settings.tsx     # "Instellingen"
 │   ├── scene/[id].tsx   # scene player; saves the completion
 │   └── done/[id].tsx    # "Goed gedaan!" after a scene
 ├── components/          # ScenePlayer, CafeScene, AnswerCard, SpeakPanel, MicPermission, Button, Icon, shapes
 │   ├── avatar/          # Figure (full-body person drawn from shapes), avatar looks
+│   ├── intro/           # the five intro shots: drawings (art.ts), lines (shots.ts), animation (IntroStage)
 │   └── map/             # Amsterdam map (generated data + SvgXml), place labels and sheet, cyclist
 ├── engine/              # pure logic: no UI, speech or storage
 │   ├── types.ts         # Scene, Turn, Choice
@@ -106,10 +115,18 @@ src/
 │   ├── useGame.tsx      # saved progress and avatar, shared by all screens
 │   ├── useScene.ts      # wires the reducer to speech and timing
 │   ├── useSpeaking.ts   # one "say it out loud" attempt
+│   ├── useAuth.tsx      # signed-in user, sign in and out
+│   ├── useSettings.tsx  # saved settings, shared by all screens
+│   ├── useScenery.ts    # time of day and season for the drawings
 │   └── useVoice.ts      # finds the device voice for a language
 ├── services/
 │   ├── speech.ts        # expo-speech wrapper: nl-NL voice, normal and slow rate
 │   ├── listening.ts     # expo-speech-recognition wrapper (skipped where unavailable)
+│   ├── firebase.ts      # Firebase app and auth
+│   ├── googleSignIn.ts  # Google sign-in (native and web)
+│   ├── cloud.ts         # Firestore sync of progress, avatar and settings
+│   ├── settings.ts      # theme, reminder, speaking, map preview, intro seen
+│   ├── reminders.ts     # daily local notification
 │   └── storage.ts       # AsyncStorage: progress per language, avatar
 ├── scenes/
 │   ├── index.ts         # unlock order per language
@@ -129,6 +146,15 @@ src/
 | Autumn evening | Winter night | Spring morning |
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/map-autumn-evening.png" width="200" alt="The map on an autumn evening: orange trees, falling leaves, a warm sky"> | <img src="docs/screenshots/map-winter-night.png" width="200" alt="The map on a winter night: snow, stars, lit windows and lamps"> | <img src="docs/screenshots/map-spring-morning.png" width="200" alt="The map on a spring morning: pale sky, fresh green and blossom petals"> |
+
+## The intro story
+
+- It plays once, after you pick your avatar, in five shots: the plane lands over the bulb fields, *Welkom in Nederland* at the airport, the train over a canal bridge, cycling along a canal, and arriving at the koffiebar. **Beginnen** then opens the map.
+- Each shot has a Dutch line that is read aloud (**Luister** repeats it). **Overslaan** skips the rest. Your own avatar is in every shot.
+- The drawings follow the time of day and the season, like the map. The landing is always in spring, so the tulips are in bloom.
+- With the phone's reduce-motion setting on, the shots are still pictures.
+- **Profiel → Bekijk de intro opnieuw** replays it; this changes nothing and returns to Profiel.
+- Everything is drawn in code (`src/components/intro/`) with react-native-svg and Reanimated. There is no video file.
 
 ## Accounts, settings and reminders
 
